@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CameraConfirmationDialog</class>
+ <widget class="QDialog" name="CameraConfirmationDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1229</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="camera_confirm_btn">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>60</y>
+     <width>81</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Confirm</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="camera_retake_btn">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>40</y>
+     <width>81</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Retake Image</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="camera_crop_btn">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>51</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Crop</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="clear_crop_lines_btn">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>20</y>
+     <width>81</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear Crop Lines</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="captured_image_name_line_edit">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>620</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>620</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Saved Image Name</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="jpg_btn_">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>620</y>
+     <width>89</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>.jpg</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="png_btn_">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>620</y>
+     <width>89</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>.png</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
