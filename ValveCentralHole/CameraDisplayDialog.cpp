@@ -10,6 +10,7 @@ CameraDisplayDialog::CameraDisplayDialog(QWidget* parent) : QDialog(parent), sho
 
 	live_video_display_.reset(ui.live_video_display_label);
 	capture_img_btn_.reset(ui.capture_img_btn);
+	configure_camera_btn_.reset(ui.configure_camera_btn);
 
 	ConnectEventListeners();
 	StartVideoStream();
@@ -65,6 +66,26 @@ void CameraDisplayDialog::ConnectEventListeners()
 			confirmation_dialog->exec();
 		});
 
+	connect(configure_camera_btn_.get(), &QPushButton::clicked, this, [this]()
+		{
+			// Launch the CameraSelectionDialog to allow the user to choose a different camera if they want
+			CameraSelectionDialog* camera_select = new CameraSelectionDialog([this](int selected_camera_id)
+				{
+					// On a new camera selected, wait for the previous camera stream to end before starting up the new one
+					stop_camera_ = true;
+					{
+						std::unique_lock<std::mutex> lock(mutex_);
+						cv_.wait(lock, [this]()
+							{
+								return !is_camera_stream_ongoing_;
+							});
+					}
+					stop_camera_ = false;
+					StartVideoStream(selected_camera_id);
+				}, this);
+			camera_select->exec();
+		});
+
 	connect(this, &QDialog::rejected, this, [this]()
 		{
 			stop_camera_ = true;
@@ -82,9 +103,48 @@ void CameraDisplayDialog::StartVideoStream()
 			{
 				if (videoCapture.open(i, CAP_DSHOW))
 				{
+					qDebug() << "Using camera at index: " << i;
 					break;
 				}
 			}
+			if (!videoCapture.isOpened())
+			{
+				emit OnCameraOpenFailed();
+				return;
+			}
+			is_camera_stream_ongoing_ = true;
+
+			Mat current_image_frame;
+			while (!should_capture_image_ && videoCapture.read(current_image_frame) && !stop_camera_)
+			{
+				QImage image(current_image_frame.data, current_image_frame.cols, current_image_frame.rows, current_image_frame.step, QImage::Format_BGR888);
+				QPixmap pixmap = QPixmap::fromImage(image).scaled(DIALOG_WIDTH, DIALOG_HEIGHT);
+
+				emit SendImageMatToLabel(pixmap.copy());
+				std::this_thread::sleep_for(std::chrono::milliseconds(33));
+			}
+
+			if (stop_camera_)
+			{
+				videoCapture.release();
+				is_camera_stream_ongoing_ = false;
+				cv_.notify_all();
+				return;
+			}
+
+			if (should_capture_image_)
+			{
+				emit OnImageCaptured(current_image_frame);
+			}
+
+		}).detach();
+}
+
+void CameraDisplayDialog::StartVideoStream(int camera_index)
+{
+	std::thread([this, camera_index]()
+		{
+			VideoCapture videoCapture(camera_index);
 
 			if (!videoCapture.isOpened())
 			{
@@ -112,7 +172,7 @@ void CameraDisplayDialog::StartVideoStream()
 			{
 				emit OnImageCaptured(current_image_frame);
 			}
-			
+
 		}).detach();
 }
 

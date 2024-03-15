@@ -42,6 +42,19 @@
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="configure_camera_btn">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>610</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Configure Camera</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

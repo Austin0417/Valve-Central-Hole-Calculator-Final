@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Austin\AppData\Local\Temp\rxe1hvyr.xxc;C:\Qt\6.6.2\msvc2019_64\include;C:\Qt\6.6.2\msvc2019_64\include\QtWidgets;C:\Qt\6.6.2\msvc2019_64\include\QtGui;C:\Qt\6.6.2\msvc2019_64\include\QtSql;C:\Qt\6.6.2\msvc2019_64\include\QtCore;C:\Users\Austin\AppData\Local\Temp\rxe1hvyr.xxc;/include;C:\Qt\6.6.2\msvc2019_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\AUSTIN~1\AppData\Local\Temp\tlm21yf1.ao4;C:\Qt\6.6.2\msvc2019_64\include;C:\Qt\6.6.2\msvc2019_64\include\QtWidgets;C:\Qt\6.6.2\msvc2019_64\include\QtMultimedia;C:\Qt\6.6.2\msvc2019_64\include\QtGui;C:\Qt\6.6.2\msvc2019_64\include\QtNetwork;C:\Qt\6.6.2\msvc2019_64\include\QtSql;C:\Qt\6.6.2\msvc2019_64\include\QtCore;C:\Users\AUSTIN~1\AppData\Local\Temp\tlm21yf1.ao4;/include;C:\Qt\6.6.2\msvc2019_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>.\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -43,7 +43,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>.\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_MULTIMEDIA_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SQL_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -53,7 +53,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>C:\Qt\6.6.2\msvc2019_64\lib\Qt6Widgets.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Gui.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Sql.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Core.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Qt\6.6.2\msvc2019_64\lib\Qt6Widgets.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Multimedia.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Gui.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Network.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Sql.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6Core.lib;C:\Qt\6.6.2\msvc2019_64\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -72,7 +72,7 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SQL_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_MULTIMEDIA_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SQL_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

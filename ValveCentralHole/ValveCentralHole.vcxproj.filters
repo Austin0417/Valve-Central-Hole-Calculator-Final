@@ -85,6 +85,9 @@
     <ClCompile Include="SelectImageCropDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CameraSelectionDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CalibrateWidget.ui">
@@ -103,6 +106,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="SelectImageCropDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="CameraSelectionDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -152,6 +158,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BinaryGaugeLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraSelectionDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

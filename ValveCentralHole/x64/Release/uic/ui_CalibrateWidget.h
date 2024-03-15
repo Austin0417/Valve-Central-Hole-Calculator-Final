@@ -46,6 +46,7 @@ public:
     QPushButton *clear_lines;
     QPushButton *crop_image_btn;
     QPushButton *clear_image_btn;
+    QPushButton *save_binary_btn;
 
     void setupUi(QWidget *CalibrateWidget)
     {
@@ -136,6 +137,10 @@ public:
         clear_image_btn->setObjectName("clear_image_btn");
         clear_image_btn->setGeometry(QRect(40, 140, 151, 31));
         clear_image_btn->setStyleSheet(QString::fromUtf8("background: white;"));
+        save_binary_btn = new QPushButton(CalibrateWidget);
+        save_binary_btn->setObjectName("save_binary_btn");
+        save_binary_btn->setGeometry(QRect(1060, 130, 111, 24));
+        save_binary_btn->setStyleSheet(QString::fromUtf8("background: white;"));
 
         retranslateUi(CalibrateWidget);
 
@@ -163,6 +168,7 @@ public:
         clear_lines->setText(QCoreApplication::translate("CalibrateWidget", "Clear Gauge Helper Lines", nullptr));
         crop_image_btn->setText(QCoreApplication::translate("CalibrateWidget", "Crop Current Image", nullptr));
         clear_image_btn->setText(QCoreApplication::translate("CalibrateWidget", "Clear Image", nullptr));
+        save_binary_btn->setText(QCoreApplication::translate("CalibrateWidget", "Save Binary Image", nullptr));
     } // retranslateUi
 
 };

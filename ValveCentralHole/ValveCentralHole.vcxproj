@@ -38,12 +38,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>Qt 6.6.2</QtInstall>
-    <QtModules>core;gui;widgets;sql</QtModules>
+    <QtModules>core;gui;widgets;multimedia;sql</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>Qt 6.6.2</QtInstall>
-    <QtModules>core;gui;widgets;sql</QtModules>
+    <QtModules>core;gui;widgets;multimedia;sql</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -111,6 +111,7 @@
     <QtUic Include="CalibrateWidget.ui" />
     <QtUic Include="CameraConfirmation.ui" />
     <QtUic Include="CameraDisplayDialog.ui" />
+    <QtUic Include="CameraSelectionDialog.ui" />
     <QtUic Include="ImageCropDialog.ui" />
     <QtUic Include="MeasureWidget.ui" />
     <QtUic Include="SelectImageCropDialog.ui" />
@@ -125,6 +126,7 @@
     <ClCompile Include="CameraConfirmationDialog.cpp" />
     <ClCompile Include="CameraConfirmLabel.cpp" />
     <ClCompile Include="CameraDisplayDialog.cpp" />
+    <ClCompile Include="CameraSelectionDialog.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="ImageCropDialog.cpp" />
     <ClCompile Include="MeasureWidget.cpp" />
@@ -146,6 +148,7 @@
     <QtMoc Include="CameraDisplayDialog.h" />
     <ClInclude Include="CameraConfirmationDialog.h" />
     <ClInclude Include="CameraConfirmLabel.h" />
+    <ClInclude Include="CameraSelectionDialog.h" />
     <ClInclude Include="Database.h" />
     <QtMoc Include="ImageCropDialog.h" />
     <QtMoc Include="SelectImageCropDialog.h" />

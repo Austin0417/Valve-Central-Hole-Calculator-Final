@@ -1,25 +1,26 @@
-C:\Users\Austin\source\repos\code\ValveCentralHole\BinarizeImageHelper.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\BinarizeImageHelper.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\BinaryGaugeLabel.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\BinaryGaugeLabel.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CalibrateWidget.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CalibrateWidget.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CalibrationGaugeDiameterDAO.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CalibrationGaugeDiameterDAO.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CalibrationGaugeLabel.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CalibrationGaugeLabel.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CalibrationGaugeParameters.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CalibrationGaugeParameters.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CameraConfirmationDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CameraConfirmationDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CameraConfirmLabel.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CameraConfirmLabel.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\CameraDisplayDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\CameraDisplayDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\Database.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\Database.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\ImageCropDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\ImageCropDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\MeasureWidget.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\MeasureWidget.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\MessageBoxHelper.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\MessageBoxHelper.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\SelectImageCropDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\SelectImageCropDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\ThreadPool.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\ThreadPool.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\ValveCentralHole.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\ValveCentralHole.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\main.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\main.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\rcc\qrc_ValveCentralHole.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\qrc_ValveCentralHole.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_ValveCentralHole.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_ValveCentralHole.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_CalibrateWidget.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_CalibrateWidget.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_CalibrationGaugeLabel.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_CalibrationGaugeLabel.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_CameraDisplayDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_CameraDisplayDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_ImageCropDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_ImageCropDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_SelectImageCropDialog.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_SelectImageCropDialog.obj
-C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc\moc_MeasureWidget.cpp;C:\Users\Austin\source\repos\code\ValveCentralHole\x64\Release\moc_MeasureWidget.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\BinarizeImageHelper.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\BinarizeImageHelper.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\BinaryGaugeLabel.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\BinaryGaugeLabel.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CalibrateWidget.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CalibrateWidget.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CalibrationGaugeDiameterDAO.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CalibrationGaugeDiameterDAO.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CalibrationGaugeLabel.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CalibrationGaugeLabel.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CalibrationGaugeParameters.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CalibrationGaugeParameters.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CameraConfirmationDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CameraConfirmationDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CameraConfirmLabel.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CameraConfirmLabel.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CameraDisplayDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CameraDisplayDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\CameraSelectionDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\CameraSelectionDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\Database.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\Database.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\ImageCropDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\ImageCropDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\MeasureWidget.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\MeasureWidget.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\MessageBoxHelper.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\MessageBoxHelper.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\SelectImageCropDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\SelectImageCropDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\ThreadPool.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\ThreadPool.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\ValveCentralHole.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\ValveCentralHole.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\main.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\main.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\rcc\qrc_ValveCentralHole.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\qrc_ValveCentralHole.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_ValveCentralHole.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_ValveCentralHole.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_CalibrateWidget.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_CalibrateWidget.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_CalibrationGaugeLabel.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_CalibrationGaugeLabel.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_CameraDisplayDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_CameraDisplayDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_ImageCropDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_ImageCropDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_SelectImageCropDialog.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_SelectImageCropDialog.obj
+C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc\moc_MeasureWidget.cpp;C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\x64\Release\moc_MeasureWidget.obj

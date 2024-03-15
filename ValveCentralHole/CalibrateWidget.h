@@ -6,6 +6,7 @@
 #include "ThreadPool.h"
 #include "ImageCropDialog.h"
 #include "BinaryGaugeLabel.h"
+#include <QCameraDevice>
 #include <QComboBox>
 #include <QString>
 #include <QWidget>
@@ -72,6 +73,7 @@ private:
 	// Mutex and thread pool for better and faster image processing
 	std::mutex mutex_;
 	ThreadPool tp_;
+
 
 	// Calibration Gauge Variables
 	CalibrationGaugeParameters gauge_parameters_;

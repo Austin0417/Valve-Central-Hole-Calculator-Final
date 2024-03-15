@@ -1,5 +1,6 @@
 #include "CalibrateWidget.h"
 #include "MessageBoxHelper.h"
+#include "qmediadevices.h"
 
 
 double CalibrateWidget::gauge_diameter_ = 0;
@@ -92,6 +93,12 @@ CalibrateWidget::CalibrateWidget(const std::unique_ptr<bool>& gauge_helper_flag,
 	InitializeUIElements();
 	CheckForLastCalibrationParameters();
 	ConnectEventListeners();
+
+	const QList<QCameraDevice> cameras = QMediaDevices::videoInputs();
+	for (const QCameraDevice& camera : cameras)
+	{
+		qDebug() << "Detected Camera: " << camera.description();
+	}
 }
 
 
