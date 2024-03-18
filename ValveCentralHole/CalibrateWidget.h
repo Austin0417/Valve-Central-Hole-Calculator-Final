@@ -23,6 +23,8 @@
 #include <memory>
 #include <mutex>
 
+#include "CalibrateData.h"
+
 
 constexpr int IMAGE_WIDTH = 610;
 constexpr int IMAGE_HEIGHT = 330;
@@ -52,7 +54,8 @@ public:
 	void ApplyLastSavedParameters();
 	void ReceiveAndDisplayCameraImage(Mat mat_from_camera);
 	void ReceiveAndDisplayCameraImage(const QString& image_name);
-	void SetMainCallback(const std::function<void(bool)>& callback);
+	void SetMirrorCallback(const std::function<void(bool)>& callback);
+	void SetCalibrateDataCallback(const std::function<void(const CalibrateData&)>& callback);
 
 	static UnitSelection current_unit_selection_;
 
@@ -68,7 +71,8 @@ private:
 	Mat current_image_mat_;
 	Mat binarized_preview_image_mat_;
 
-	std::function<void(bool)> main_callback_;
+	std::function<void(bool)> mirror_action_callback_;
+	std::function<void(const CalibrateData&)> save_calibrate_data_to_file_callback_;
 
 	// Mutex and thread pool for better and faster image processing
 	std::mutex mutex_;

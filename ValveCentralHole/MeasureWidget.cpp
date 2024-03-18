@@ -72,6 +72,11 @@ void MeasureWidget::SetPreviewMat(Mat preview_mat)
 	binarized_image_preview_mat_ = preview_mat;
 }
 
+void MeasureWidget::SetMeasureDataCallback(const std::function<void(const MeasureData&)>& callback)
+{
+	measure_data_callback_ = callback;
+}
+
 
 void MeasureWidget::ConnectEventListeners() {
 	connect(select_valve_image_.get(), &QPushButton::clicked, this, [this]() {
@@ -102,6 +107,14 @@ void MeasureWidget::ConnectEventListeners() {
 		{
 			QString unit_suffix = GetUnitSuffix(CalibrateWidget::current_unit_selection_);
 			calculated_area_label_->setText("Calculated Valve Area: " + QString::number(valve_area) + " " + unit_suffix);
+			if (measure_data_callback_)
+			{
+				QList<QString> split_filename = current_image_filename_.split("/");
+				QString target_filename = split_filename[split_filename.size() - 1];
+
+				measure_data_callback_(MeasureData(target_filename.toStdString(), QDateTime::currentDateTimeUtc().toString().toStdString(),
+					CalibrateWidget::current_unit_selection_, valve_area));
+			}
 		});
 
 	connect(file_dialog_.get(), &QFileDialog::fileSelected, this, [this](const QString& filename) {
@@ -119,6 +132,7 @@ void MeasureWidget::ConnectEventListeners() {
 
 		QPixmap image = QPixmap(filename).scaled(QSize(IMAGE_WIDTH, IMAGE_HEIGHT));
 		original_image_->setPixmap(image);
+		current_image_filename_ = filename;
 
 		auto thread_handle = std::async(std::launch::async, &CreateBinaryImagePreview, std::ref(*this), std::ref(current_image_mat_), false);
 		});

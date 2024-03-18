@@ -14,6 +14,7 @@ void ValveCentralHole::InitializeUIElements() {
 	file_dialog_->setStyleSheet("background: white;");
 
 	options_menu_.reset(menu_bar_->addMenu("Options"));
+	history_menu_.reset(menu_bar_->addMenu("History"));
 	options_menu_->addAction(new QAction("Crop an Image"));
 	helper_tool_submenu_ = new QMenu("Helper Gauge Diameter Measure Tool");
 	options_menu_->addMenu(helper_tool_submenu_);
@@ -27,12 +28,32 @@ void ValveCentralHole::InitializeUIElements() {
 	options_menu_->addAction("Apply Last Saved Gauge Parameters");
 	options_menu_->addAction("Activate Camera");
 
+
+	history_menu_->addAction("View Calculation History");
+
 	// Removing the starting tabs from the QTabWidget
 	tab_widget->clear();
 
-	calibrate_tab_->SetMainCallback([this, mirror_action](bool isCurrentlyShowingPreview)
+	calibrate_tab_->SetMirrorCallback([this, mirror_action](bool isCurrentlyShowingPreview)
 		{
 			mirror_action->setEnabled(isCurrentlyShowingPreview);
+		});
+	calibrate_tab_->SetCalibrateDataCallback([this](const CalibrateData& calibrate_data)
+		{
+			{
+				std::unique_lock<std::mutex> lock(file_thread_mutex_);
+				data_queue_.push(std::make_unique<CalibrateData>(calibrate_data));
+			}
+			file_thread_cv_.notify_one();
+		});
+
+	measure_tab_->SetMeasureDataCallback([this](const MeasureData& measure_data)
+		{
+			{
+				std::unique_lock<std::mutex> lock(file_thread_mutex_);
+				data_queue_.push(std::make_unique<MeasureData>(measure_data));
+			}
+			file_thread_cv_.notify_one();
 		});
 
 	tab_widget->addTab(calibrate_tab_.get(), "Calibrate");
@@ -139,6 +160,86 @@ void ValveCentralHole::ConnectEventListeners() {
 			}
 		}
 	}
+
+	QList<QAction*> history_menu_actions = history_menu_->actions();
+	if (!history_menu_actions.empty())
+	{
+		for (QAction* action : history_menu_actions)
+		{
+			if (action->text() == "View Calculation History")
+			{
+				connect(action, &QAction::triggered, this, [this](bool checked)
+					{
+						std::mutex mutex;
+						std::condition_variable cv;
+						bool has_loaded_calibrate_history = false, has_loaded_valve_area_history = false;
+
+						// Load the history data from both text files
+						auto load_calibrate_history = std::async(std::launch::async, [this, &cv, &has_loaded_calibrate_history]()
+							{
+								calibrate_history_ = file_writer_.ReadCalibrateHistory();
+								has_loaded_calibrate_history = true;
+								cv.notify_one();
+							});
+
+						auto load_valve_area_history = std::async(std::launch::async, [this, &cv, &has_loaded_valve_area_history]()
+							{
+								measure_history_ = file_writer_.ReadValveAreaHistory();
+								has_loaded_valve_area_history = true;
+								cv.notify_one();
+							});
+
+						// Wait until both files have been loaded
+						{
+							std::unique_lock<std::mutex> lock(mutex);
+							cv.wait(lock, [this, &has_loaded_calibrate_history, &has_loaded_valve_area_history]()
+								{
+									return has_loaded_calibrate_history && has_loaded_valve_area_history;
+								});
+						}
+
+						// Launch the CalculationHistoryDialog here
+						CalculationHistoryDialog* dialog = new CalculationHistoryDialog(calibrate_history_, measure_history_, this);
+						dialog->exec();
+					});
+			}
+		}
+	}
+}
+
+
+void ValveCentralHole::LaunchFileWriterThread()
+{
+	std::thread([this]()
+		{
+			while (true)
+			{
+				{
+					std::unique_lock<std::mutex> lock(file_thread_mutex_);
+					file_thread_cv_.wait(lock, [this]()
+						{
+							return !data_queue_.empty();
+						});
+				}
+
+				std::unique_ptr<ValveData> data = std::move(data_queue_.front());
+				{
+					std::unique_lock<std::mutex> lock(file_thread_mutex_);
+					data_queue_.pop();
+				}
+
+				// Write the data to the corresponding text file here (we have to determine the corresponding text file)
+				qDebug() << "RECORDED LOG: " << data->ToFileFormat();
+				if (data->GetFileNameType() == FileWriter::CALIBRATE_HISTORY_FILENAME)
+				{
+					file_writer_.AppendToCalibrateHistory(*data);
+				}
+				else
+				{
+					file_writer_.AppendToValveAreaHistory(*data);
+				}
+			}
+		}).detach();
 }
 
 
@@ -149,6 +250,7 @@ ValveCentralHole::ValveCentralHole(QWidget* parent)
 
 	InitializeUIElements();
 	ConnectEventListeners();
+	LaunchFileWriterThread();
 }
 
 

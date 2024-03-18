@@ -22,6 +22,7 @@ class Ui_CameraDisplayDialog
 public:
     QPushButton *capture_img_btn;
     QLabel *live_video_display_label;
+    QPushButton *configure_camera_btn;
 
     void setupUi(QDialog *CameraDisplayDialog)
     {
@@ -35,6 +36,9 @@ public:
         live_video_display_label->setObjectName("live_video_display_label");
         live_video_display_label->setGeometry(QRect(80, 10, 1050, 600));
         live_video_display_label->setStyleSheet(QString::fromUtf8("background: black;"));
+        configure_camera_btn = new QPushButton(CameraDisplayDialog);
+        configure_camera_btn->setObjectName("configure_camera_btn");
+        configure_camera_btn->setGeometry(QRect(100, 610, 131, 31));
 
         retranslateUi(CameraDisplayDialog);
 
@@ -46,6 +50,7 @@ public:
         CameraDisplayDialog->setWindowTitle(QCoreApplication::translate("CameraDisplayDialog", "Dialog", nullptr));
         capture_img_btn->setText(QCoreApplication::translate("CameraDisplayDialog", "Capture Image", nullptr));
         live_video_display_label->setText(QCoreApplication::translate("CameraDisplayDialog", "TextLabel", nullptr));
+        configure_camera_btn->setText(QCoreApplication::translate("CameraDisplayDialog", "Configure Camera", nullptr));
     } // retranslateUi
 
 };

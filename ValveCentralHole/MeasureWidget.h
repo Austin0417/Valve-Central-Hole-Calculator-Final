@@ -8,6 +8,8 @@
 #include <QFileDialog>
 #include <memory>
 
+#include "MeasureData.h"
+
 namespace Ui {
 	class MeasureWidget;
 }
@@ -22,6 +24,7 @@ public:
 	void RefreshCalibrationFactor();
 	int GetThresholdValue() const;
 	void SetPreviewMat(Mat preview_mat);
+	void SetMeasureDataCallback(const std::function<void(const MeasureData&)>& callback);
 
 signals:
 	void UpdatePreviewMat();
@@ -31,9 +34,12 @@ signals:
 private:
 	Ui::MeasureWidget* ui;
 	int threshold_value_ = 127;
+	QString current_image_filename_;
 	Mat current_image_mat_;
 	Mat binarized_image_preview_mat_;
 	bool isCurrentlyShowingPreview = false;
+
+	std::function<void(const MeasureData&)> measure_data_callback_;
 
 	std::unique_ptr<QLabel> calibration_factor_label_;
 	std::unique_ptr<QPushButton> select_valve_image_;

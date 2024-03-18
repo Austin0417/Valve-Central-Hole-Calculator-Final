@@ -145,10 +145,16 @@ void CalibrateWidget::ReceiveAndDisplayCameraImage(const QString& image_name)
 	DisplaySelectedImage(image_name, true);
 }
 
-void CalibrateWidget::SetMainCallback(const std::function<void(bool)>& callback)
+void CalibrateWidget::SetMirrorCallback(const std::function<void(bool)>& callback)
 {
-	main_callback_ = callback;
+	mirror_action_callback_ = callback;
 }
+
+void CalibrateWidget::SetCalibrateDataCallback(const std::function<void(const CalibrateData&)>& callback)
+{
+	save_calibrate_data_to_file_callback_ = callback;
+}
+
 
 double CalibrateWidget::GetGaugeDiameter() {
 	return gauge_diameter_;
@@ -511,6 +517,14 @@ void CalibrateWidget::ConnectEventListeners()
 	connect(this, &CalibrateWidget::OnCalibrationComplete, this, [this](double calibrationFactor) {
 		calibration_factor_ = calibrationFactor;
 		DisplayCalibrationFactor();
+		if (save_calibrate_data_to_file_callback_)
+		{
+			QList<QString> parsed_filename = selected_image_filename_.split("/");
+			QString target_filename = parsed_filename[parsed_filename.size() - 1];
+
+			save_calibrate_data_to_file_callback_(CalibrateData(target_filename.toStdString(),
+				QDateTime::currentDateTimeUtc().toLocalTime().toString().toStdString(), current_unit_selection_, calibrationFactor));
+		}
 		});
 
 	connect(crop_image_btn_.get(), &QPushButton::clicked, this, [this]()
@@ -594,9 +608,9 @@ void CalibrateWidget::SetIsCurrentlyShowingPreview(bool status)
 {
 	isCurrentlyShowingPreview = status;
 	save_binary_btn_->setEnabled(status);
-	if (main_callback_)
+	if (mirror_action_callback_)
 	{
-		main_callback_(isCurrentlyShowingPreview);
+		mirror_action_callback_(isCurrentlyShowingPreview);
 	}
 }
 
