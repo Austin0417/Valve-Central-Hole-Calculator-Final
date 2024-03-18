@@ -23,6 +23,14 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(const std::vector<MeasureData>& m
 	history_table_->setItem(0, 2, new QTableWidgetItem("Time at Measurement"));
 
 	SetTableData();
+
+	connect(clear_btn_.get(), &QPushButton::clicked, this, [this]()
+		{
+			if (clear_valve_area_history_callback_)
+			{
+				clear_valve_area_history_callback_();
+			}
+		});
 }
 
 void ValveAreaHistoryWidget::AddRowToTable(const MeasureData& data)
@@ -55,4 +63,22 @@ void ValveAreaHistoryWidget::SetTableData()
 			AddRowToTable(measure_history_[i]);
 		}
 	}
+}
+
+void ValveAreaHistoryWidget::SetClearValveAreaHistoryCallback(const std::function<void()>& callback)
+{
+	clear_valve_area_history_callback_ = callback;
+}
+
+void ValveAreaHistoryWidget::ClearTable()
+{
+	history_table_->clear();
+	history_table_->setRowCount(1);
+	history_table_->insertRow(history_table_->rowCount());
+	history_table_->setColumnWidth(0, history_table_->width() / 3);
+	history_table_->setColumnWidth(1, history_table_->width() / 3);
+	history_table_->setColumnWidth(2, history_table_->width() / 3);
+	history_table_->setItem(0, 0, new QTableWidgetItem("Image Filename"));
+	history_table_->setItem(0, 1, new QTableWidgetItem("Measured Area"));
+	history_table_->setItem(0, 2, new QTableWidgetItem("Time at Measurement"));
 }

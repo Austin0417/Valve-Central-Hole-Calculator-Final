@@ -197,10 +197,34 @@ void ValveCentralHole::ConnectEventListeners() {
 									return has_loaded_calibrate_history && has_loaded_valve_area_history;
 								});
 						}
+						num_lines_calibrate_history_ = calibrate_history_.size();
+						num_lines_valve_history_ = measure_history_.size();
 
 						// Launch the CalculationHistoryDialog here
-						CalculationHistoryDialog* dialog = new CalculationHistoryDialog(calibrate_history_, measure_history_, this);
-						dialog->exec();
+						history_dialog_ = std::make_unique<CalculationHistoryDialog>(calibrate_history_, measure_history_, this);
+
+						// Clear the calibrate history text file here
+						history_dialog_->SetClearCalibrateHistoryCallback([this]()
+							{
+								std::ofstream file_clear(FileWriter::CALIBRATE_HISTORY_FILENAME);
+								if (file_clear.is_open())
+								{
+									MessageBoxHelper::ShowOkDialog("Previous calibration history has been cleared");
+									history_dialog_->GetCalibrateHistoryWidget()->ClearTable();
+								}
+							});
+
+						// Clear Valve Area history text file
+						history_dialog_->SetClearValveAreaHistoryCallback([this]()
+							{
+								std::ofstream file_clear(FileWriter::MEASURE_AREA_HISTORY_FILENAME);
+								if (file_clear.is_open())
+								{
+									MessageBoxHelper::ShowOkDialog("Previous valve area measurement history has been cleared");
+									history_dialog_->GetValveAreaHistoryWidget()->ClearTable();
+								}
+							});
+						history_dialog_->exec();
 					});
 			}
 		}
@@ -233,10 +257,23 @@ void ValveCentralHole::LaunchFileWriterThread()
 				if (data->GetFileNameType() == FileWriter::CALIBRATE_HISTORY_FILENAME)
 				{
 					file_writer_.AppendToCalibrateHistory(*data);
+					num_lines_calibrate_history_++;
 				}
 				else
 				{
 					file_writer_.AppendToValveAreaHistory(*data);
+					num_lines_valve_history_++;
+				}
+
+				// TODO After the latest log has been added, check either of the text files exceed 20 lines
+				// If greater than 20 lines, remove the first line (oldest log)
+				if (num_lines_calibrate_history_ > 20)
+				{
+
+				}
+				if (num_lines_valve_history_ > 20)
+				{
+
 				}
 			}
 		}).detach();

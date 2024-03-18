@@ -93,3 +93,15 @@ void FileWriter::AppendToValveAreaHistory(const ValveData& measure_data)
 	write_valve_area_history_.flush();
 }
 
+void FileWriter::TrimCalibrateHistory()
+{
+	std::vector<CalibrateData> calibrate_history = ReadCalibrateHistory();
+
+	// Grab the latest 20 logs/CalibrateData
+	int index = 0;
+	while (index < 20)
+	{
+
+	}
+}
+

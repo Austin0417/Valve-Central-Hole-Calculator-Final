@@ -11,6 +11,21 @@ CalculationHistoryDialog::CalculationHistoryDialog(const std::vector<CalibrateDa
 	calibration_gauge_history_ = std::make_unique<CalibrateHistoryWidget>(calibrate_history_, this);
 	valve_area_history_ = std::make_unique<ValveAreaHistoryWidget>(measure_history_, this);
 
+	calibration_gauge_history_->SetClearCalibrateHistoryCallback([this]()
+		{
+			if (clear_calibrate_history_callback_)
+			{
+				clear_calibrate_history_callback_();
+			}
+		});
+	valve_area_history_->SetClearValveAreaHistoryCallback([this]()
+		{
+			if (clear_valve_area_history_callback_)
+			{
+				clear_valve_area_history_callback_();
+			}
+		});
+
 	tab_widget_.reset(ui.history_tab_widget);
 	tab_widget_->clear();
 
@@ -35,3 +50,25 @@ CalculationHistoryDialog::CalculationHistoryDialog(const std::vector<CalibrateDa
 			}
 		});
 }
+
+void CalculationHistoryDialog::SetClearCalibrateHistoryCallback(const std::function<void()>& callback)
+{
+	clear_calibrate_history_callback_ = callback;
+}
+
+void CalculationHistoryDialog::SetClearValveAreaHistoryCallback(const std::function<void()>& callback)
+{
+	clear_valve_area_history_callback_ = callback;
+}
+
+std::unique_ptr<CalibrateHistoryWidget>& CalculationHistoryDialog::GetCalibrateHistoryWidget()
+{
+	return calibration_gauge_history_;
+}
+
+std::unique_ptr<ValveAreaHistoryWidget>& CalculationHistoryDialog::GetValveAreaHistoryWidget()
+{
+	return valve_area_history_;
+}
+
+

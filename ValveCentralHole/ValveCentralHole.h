@@ -44,9 +44,12 @@ private:
 	FileWriter file_writer_;
 	std::vector<CalibrateData> calibrate_history_;
 	std::vector<MeasureData> measure_history_;
+	int num_lines_calibrate_history_;
+	int num_lines_valve_history_;
 	std::mutex file_thread_mutex_;
 	std::condition_variable file_thread_cv_;
 	std::queue<std::unique_ptr<ValveData>> data_queue_;
+	std::unique_ptr<CalculationHistoryDialog> history_dialog_;
 
 	void InitializeUIElements();
 	void ConnectEventListeners();

@@ -18,6 +18,7 @@ private:
 	std::unique_ptr<QTableWidget> history_table_;
 	std::unique_ptr<QPushButton> clear_btn_;
 	const std::vector<CalibrateData>& calibrate_history_;
+	std::function<void()> clear_calibrate_history_callback_;
 
 	Ui::CalibrateHistoryWidget ui;
 
@@ -25,5 +26,7 @@ private:
 	void SetTableData();
 public:
 	CalibrateHistoryWidget(const std::vector<CalibrateData>& calibrate_history, QWidget* parent);
+	void SetClearCalibrateHistoryCallback(const std::function<void()>& callback);
+	void ClearTable();
 };
 
