@@ -2,6 +2,7 @@
 #include <fstream>
 #include "CalibrateData.h"
 #include "MeasureData.h"
+#include <queue>
 #include <vector>
 
 
@@ -16,6 +17,8 @@ public:
 	FileWriter();
 	std::vector<CalibrateData> ReadCalibrateHistory();
 	std::vector<MeasureData> ReadValveAreaHistory();
+	std::queue<CalibrateData> ReadCalibrateHistoryQueue();
+	std::queue<MeasureData> ReadValveAreaHistoryQueue();
 	void AppendToCalibrateHistory(const ValveData& data);
 	void AppendToValveAreaHistory(const ValveData& measure_data);
 	void TrimCalibrateHistory();	// trims the calibrate history text file so that only the latest 20 logs are kept

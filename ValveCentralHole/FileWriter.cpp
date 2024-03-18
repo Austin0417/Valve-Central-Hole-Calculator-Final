@@ -80,6 +80,54 @@ std::vector<MeasureData> FileWriter::ReadValveAreaHistory()
 	return result;
 }
 
+std::queue<CalibrateData> FileWriter::ReadCalibrateHistoryQueue()
+{
+	std::string line;
+	std::queue<CalibrateData> result;
+	while (std::getline(read_valve_area_history_, line))
+	{
+		std::vector<std::string> split_string = splitString(line, ", ");
+		std::string tmp = split_string[1];
+		std::vector<std::string> value_and_units = splitString(tmp, " ");
+		UnitSelection units = UnitSelection::MILLIMETERS;
+
+		if (value_and_units.size() >= 2 && value_and_units[1] == "in^2")
+		{
+			units = UnitSelection::INCHES;
+		}
+		result.emplace(split_string[0], split_string[2], units, std::stod(split_string[1]));
+	}
+
+	read_valve_area_history_.clear();
+	read_valve_area_history_.seekg(0, std::ios::beg);
+
+	return result;
+}
+
+std::queue<MeasureData> FileWriter::ReadValveAreaHistoryQueue()
+{
+	std::string line;
+	std::queue<MeasureData> result;
+	while (std::getline(read_valve_area_history_, line))
+	{
+		std::vector<std::string> split_string = splitString(line, ", ");
+		std::string tmp = split_string[1];
+		std::vector<std::string> value_and_units = splitString(tmp, " ");
+		UnitSelection units = UnitSelection::MILLIMETERS;
+
+		if (value_and_units.size() >= 2 && value_and_units[1] == "in^2")
+		{
+			units = UnitSelection::INCHES;
+		}
+		result.emplace(split_string[0], split_string[2], units, std::stod(split_string[1]));
+	}
+
+	read_valve_area_history_.clear();
+	read_valve_area_history_.seekg(0, std::ios::beg);
+
+	return result;
+}
+
 void FileWriter::AppendToCalibrateHistory(const ValveData& calibrate_data)
 {
 
@@ -95,13 +143,44 @@ void FileWriter::AppendToValveAreaHistory(const ValveData& measure_data)
 
 void FileWriter::TrimCalibrateHistory()
 {
-	std::vector<CalibrateData> calibrate_history = ReadCalibrateHistory();
+	std::queue<CalibrateData> calibrate_data_queue = ReadCalibrateHistoryQueue();
 
-	// Grab the latest 20 logs/CalibrateData
-	int index = 0;
-	while (index < 20)
+	while (calibrate_data_queue.size() > 20)
 	{
-
+		calibrate_data_queue.pop();
 	}
+
+	std::ofstream calibrate_file(FileWriter::CALIBRATE_HISTORY_FILENAME);
+
+	while (!calibrate_data_queue.empty())
+	{
+		const CalibrateData& data = calibrate_data_queue.front();
+		calibrate_file << data.ToFileFormat();
+		calibrate_data_queue.pop();
+	}
+
+	calibrate_file.flush();
 }
+
+void FileWriter::TrimValveAreaHistory()
+{
+	std::queue<MeasureData> valve_area_history_queue = ReadValveAreaHistoryQueue();
+
+	while (valve_area_history_queue.size() > 20)
+	{
+		valve_area_history_queue.pop();
+	}
+
+	std::ofstream valve_file(FileWriter::MEASURE_AREA_HISTORY_FILENAME);
+
+	while (!valve_area_history_queue.empty())
+	{
+		const MeasureData& data = valve_area_history_queue.front();
+		valve_file << data.ToFileFormat();
+		valve_area_history_queue.pop();
+	}
+
+	valve_file.flush();
+}
+
 

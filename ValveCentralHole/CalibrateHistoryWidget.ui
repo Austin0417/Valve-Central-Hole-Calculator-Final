@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true"/>
-  </property>
   <widget class="QTableWidget" name="history_table_widget">
    <property name="geometry">
     <rect>
@@ -26,7 +23,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background: gray;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="clear_history_btn">
