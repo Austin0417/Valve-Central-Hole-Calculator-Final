@@ -269,11 +269,13 @@ void ValveCentralHole::LaunchFileWriterThread()
 				// If greater than 20 lines, remove the first line (oldest log)
 				if (num_lines_calibrate_history_ > 20)
 				{
-
+					file_writer_.TrimCalibrateHistory();
+					num_lines_calibrate_history_ = 20;
 				}
 				if (num_lines_valve_history_ > 20)
 				{
-
+					file_writer_.TrimValveAreaHistory();
+					num_lines_valve_history_ = 20;
 				}
 			}
 		}).detach();

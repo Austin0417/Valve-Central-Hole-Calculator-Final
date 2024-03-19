@@ -107,6 +107,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryDetailsLabel.cpp" />
     <ClCompile Include="CalculationHistoryDialog.cpp" />
     <ClCompile Include="CalibrateHistoryWidget.cpp" />
     <ClCompile Include="CalibrateData.cpp" />
@@ -151,12 +152,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinarizeImageHelper.h" />
+    <ClInclude Include="BinaryDetailsLabel.h" />
     <ClInclude Include="CalculationHistoryDialog.h" />
-    <ClInclude Include="CalibrateHistoryWidget.h" />
+    <QtMoc Include="CalibrateHistoryWidget.h" />
     <ClInclude Include="CalibrateData.h" />
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="MeasureData.h" />
-    <ClInclude Include="ValveAreaHistoryWidget.h" />
+    <QtMoc Include="ValveAreaHistoryWidget.h" />
     <ClInclude Include="ValveData.h" />
     <QtMoc Include="CalibrationGaugeLabel.h" />
     <ClInclude Include="BinaryGaugeLabel.h" />

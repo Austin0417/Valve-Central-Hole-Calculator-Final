@@ -109,6 +109,9 @@
     <ClCompile Include="ValveAreaHistoryWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BinaryDetailsLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CalibrateWidget.ui">
@@ -161,6 +164,12 @@
     <QtMoc Include="SelectImageCropDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="CalibrateHistoryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ValveAreaHistoryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MessageBoxHelper.h">
@@ -205,13 +214,10 @@
     <ClInclude Include="CalculationHistoryDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CalibrateHistoryWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ValveAreaHistoryWidget.h">
+    <ClInclude Include="BinaryDetailsLabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "ThreadPool.h"
 #include "ImageCropDialog.h"
 #include "BinaryGaugeLabel.h"
+#include "BinaryDetailsLabel.h"
 #include <QCameraDevice>
 #include <QComboBox>
 #include <QString>
@@ -70,6 +71,8 @@ private:
 	const std::unique_ptr<bool>& gauge_helper_flag_;
 	Mat current_image_mat_;
 	Mat binarized_preview_image_mat_;
+	unsigned long long num_total_pixels_ = 0;
+	unsigned long long num_white_pixels_ = 0;
 
 	std::function<void(bool)> mirror_action_callback_;
 	std::function<void(const CalibrateData&)> save_calibrate_data_to_file_callback_;
@@ -107,6 +110,7 @@ private:
 	std::unique_ptr<QPushButton> calibrate_btn_;
 	std::unique_ptr<QLabel> calibration_factor_label_;
 	std::unique_ptr<QLabel> threshold_mode_tooltip_label_;
+	std::unique_ptr<BinaryDetailsLabel> binary_details_label_;
 	std::unique_ptr<QLabel> saline_tooltip_label_;
 	std::unique_ptr<QPushButton> clear_lines_btn_;
 	std::unique_ptr<QPushButton> crop_image_btn_;

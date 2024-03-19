@@ -176,6 +176,8 @@ void CalibrateWidget::DisplaySelectedImage(const QString& filename, bool should_
 		return;
 	}
 
+	num_total_pixels_ = current_image_mat_.rows * current_image_mat_.cols;
+
 	QPixmap image(filename);
 	QPixmap scaled = image.scaled(QSize(IMAGE_WIDTH, IMAGE_HEIGHT));
 	original_image_->setPixmap(scaled);
@@ -202,6 +204,9 @@ void CalibrateWidget::DisplaySelectedImage(const Mat& selected_mat, const QImage
 		return;
 	}
 	current_image_mat_ = selected_mat.clone();
+
+	num_total_pixels_ = current_image_mat_.rows * current_image_mat_.cols;
+
 	QImage image(current_image_mat_.data, current_image_mat_.cols, current_image_mat_.rows, current_image_mat_.step, image_format);
 	QPixmap pixmap = QPixmap::fromImage(image).scaled(IMAGE_WIDTH, IMAGE_HEIGHT);
 	original_image_->setPixmap(pixmap);
@@ -216,7 +221,6 @@ void CalibrateWidget::DisplaySelectedImage(const Mat& selected_mat, const QImage
 		break;
 	}
 	}
-
 
 	if (should_show_binary_immediately)
 	{
@@ -250,6 +254,7 @@ void CalibrateWidget::DisplayPreviewMat()
 		qDebug() << "Error converting QImage into QPixmap";
 		return;
 	}
+
 	binarized_image_->setPixmap(preview_pixmap.scaled(QSize(IMAGE_WIDTH, IMAGE_HEIGHT)));
 }
 
@@ -271,6 +276,12 @@ void CalibrateWidget::InitializeUIElements()
 	clear_lines_btn_.reset(ui->clear_lines);
 	crop_image_btn_.reset(ui->crop_image_btn);
 	clear_image_btn_.reset(ui->clear_image_btn);
+
+	binary_details_label_ = std::make_unique<BinaryDetailsLabel>(&num_total_pixels_, &num_white_pixels_, this);
+	binary_details_label_->setFixedWidth(21);
+	binary_details_label_->setFixedHeight(21);
+	binary_details_label_->move(1220, 180);
+	binary_details_label_->setPixmap(QPixmap("tooltip_question_mark.png").scaled(binary_details_label_->width(), binary_details_label_->height()));
 
 	save_binary_btn_.reset(ui->save_binary_btn);
 	save_binary_btn_->setEnabled(false);
@@ -488,6 +499,7 @@ void CalibrateWidget::ConnectEventListeners()
 		}
 
 		std::pair<unsigned long long, unsigned long long> num_on_off_pixels = BinarizeImageHelper::GetNumberOfOnAndOffPixels(binarized_preview_image_mat_, tp_);
+		num_white_pixels_ = num_on_off_pixels.first;
 		double calibration_factor;
 		switch (threshold_mode_combo_box_->currentIndex())
 		{
@@ -551,6 +563,8 @@ void CalibrateWidget::ConnectEventListeners()
 			binarized_preview_image_mat_ = Mat();
 			original_image_->setPixmap(QPixmap());
 			binarized_image_->setPixmap(QPixmap());
+			num_total_pixels_ = 0;
+			num_white_pixels_ = 0;
 			SetIsCurrentlyShowingPreview(false);
 		});
 

@@ -84,7 +84,7 @@ public:
         binarized_image->setStyleSheet(QString::fromUtf8("background: brown;"));
         label_6 = new QLabel(CalibrateWidget);
         label_6->setObjectName("label_6");
-        label_6->setGeometry(QRect(930, 180, 101, 31));
+        label_6->setGeometry(QRect(930, 180, 71, 31));
         label_6->setStyleSheet(QString::fromUtf8("font-size: 25px; color: black;"));
         preview_btn = new QPushButton(CalibrateWidget);
         preview_btn->setObjectName("preview_btn");

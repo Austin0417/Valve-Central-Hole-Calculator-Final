@@ -7,6 +7,7 @@
 
 class CalibrateHistoryWidget : public QWidget
 {
+	Q_OBJECT
 private:
 	enum RowFormat
 	{
@@ -19,14 +20,29 @@ private:
 	std::unique_ptr<QPushButton> clear_btn_;
 	const std::vector<CalibrateData>& calibrate_history_;
 	std::function<void()> clear_calibrate_history_callback_;
+	std::unordered_map<QTableWidgetItem*, bool> sort_mapping_;	// key is pointers to addresses of the QTableWidgetItem column headers, value is boolean indicating if the column is sorted in ascending order
 
 	Ui::CalibrateHistoryWidget ui;
 
+	void InitializeHistoryTable(bool is_refresh = false);
 	void AddTableRow(const CalibrateData& data);
-	void SetTableData();
+	void SetTableData(const std::vector<CalibrateData>& data, bool is_refresh = false);
 public:
+	enum class SortOption
+	{
+		FILENAME_ASCENDING,
+		FILENAME_DESCENDING,
+		CALIBRATION_ASCENDING,
+		CALIBRATION_DESCENDING,
+		TIME_ASCENDING,
+		TIME_DESCENDING
+	};
+
 	CalibrateHistoryWidget(const std::vector<CalibrateData>& calibrate_history, QWidget* parent);
 	void SetClearCalibrateHistoryCallback(const std::function<void()>& callback);
 	void ClearTable();
+
+signals:
+	void DisplaySortedTable(const std::vector<CalibrateData>& sorted);
 };
 

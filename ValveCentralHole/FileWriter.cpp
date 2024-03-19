@@ -84,7 +84,7 @@ std::queue<CalibrateData> FileWriter::ReadCalibrateHistoryQueue()
 {
 	std::string line;
 	std::queue<CalibrateData> result;
-	while (std::getline(read_valve_area_history_, line))
+	while (std::getline(read_calibrate_history_, line))
 	{
 		std::vector<std::string> split_string = splitString(line, ", ");
 		std::string tmp = split_string[1];
@@ -98,8 +98,8 @@ std::queue<CalibrateData> FileWriter::ReadCalibrateHistoryQueue()
 		result.emplace(split_string[0], split_string[2], units, std::stod(split_string[1]));
 	}
 
-	read_valve_area_history_.clear();
-	read_valve_area_history_.seekg(0, std::ios::beg);
+	read_calibrate_history_.clear();
+	read_calibrate_history_.seekg(0, std::ios::beg);
 
 	return result;
 }
@@ -150,7 +150,7 @@ void FileWriter::TrimCalibrateHistory()
 		calibrate_data_queue.pop();
 	}
 
-	std::ofstream calibrate_file(FileWriter::CALIBRATE_HISTORY_FILENAME);
+	std::ofstream calibrate_file(CALIBRATE_HISTORY_FILENAME);
 
 	while (!calibrate_data_queue.empty())
 	{
@@ -171,7 +171,7 @@ void FileWriter::TrimValveAreaHistory()
 		valve_area_history_queue.pop();
 	}
 
-	std::ofstream valve_file(FileWriter::MEASURE_AREA_HISTORY_FILENAME);
+	std::ofstream valve_file(MEASURE_AREA_HISTORY_FILENAME);
 
 	while (!valve_area_history_queue.empty())
 	{

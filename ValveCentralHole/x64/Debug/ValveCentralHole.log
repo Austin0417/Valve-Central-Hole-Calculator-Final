@@ -1,8 +1,2 @@
-﻿  CalibrateData.cpp
-  FileWriter.cpp
-  MeasureData.cpp
-  ValveAreaHistoryWidget.cpp
-  ValveCentralHole.cpp
-  main.cpp
-  moc_ValveCentralHole.cpp
+﻿  ValveAreaHistoryWidget.cpp
   ValveCentralHole.vcxproj -> C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\x64\Debug\ValveCentralHole.exe
