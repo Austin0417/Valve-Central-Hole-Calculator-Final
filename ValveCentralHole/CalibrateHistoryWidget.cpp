@@ -70,6 +70,9 @@ CalibrateHistoryWidget::CalibrateHistoryWidget(const std::vector<CalibrateData>&
 
 	history_table_.reset(ui.history_table_widget);
 	clear_btn_.reset(ui.clear_history_btn);
+	export_csv_btn_.reset(ui.export_csv_btn);
+	save_csv_file_dialog_ = std::make_unique<QFileDialog>(this);
+	save_csv_file_dialog_->setFileMode(QFileDialog::Directory);
 
 	InitializeHistoryTable();
 	SetTableData(calibrate_history_);
@@ -146,6 +149,60 @@ CalibrateHistoryWidget::CalibrateHistoryWidget(const std::vector<CalibrateData>&
 		{
 			SetTableData(sorted, true);
 		});
+
+	connect(export_csv_btn_.get(), &QPushButton::clicked, this, [this]()
+		{
+			save_csv_file_dialog_->exec();
+		});
+
+	connect(save_csv_file_dialog_.get(), &QFileDialog::fileSelected, this, [this](const QString& directory)
+		{
+			// Two threads, one will retrieve all of the CSV data, such as the headers and all of the row data.
+			// The other will initialize and open an output file stream that creates the CSV file at the desired file location
+			auto output_file_stream_thread = std::async(std::launch::async, [this, directory]()
+				{
+					// Initially create the output CSV file and write the headers, then wait until the data retrieval thread has finished processing
+					std::ofstream output_csv(directory.toStdString() + "/calibrate_history.csv");
+					if (output_csv.is_open())
+					{
+						output_csv << "Image Filename, Calculated Calibration Factor, Time of Measurement\n";
+						{
+							std::unique_lock<std::mutex> lock(mutex_);
+							cv_.wait(lock, [this]()
+								{
+									return data_retrieval_complete;
+								});
+						}
+						for (const std::vector<QTableWidgetItem*>& table_row : table_items_)
+						{
+							for (int i = 0; i < table_row.size(); i++)
+							{
+								if (i == table_row.size() - 1)
+								{
+									output_csv << table_row[i]->text().toStdString() << "\n";
+								}
+								else
+								{
+									output_csv << table_row[i]->text().toStdString() << ", ";
+								}
+							}
+						}
+						output_csv.flush();
+						table_items_.clear();
+						data_retrieval_complete = false;
+					}
+				});
+
+			auto data_retrieval_thread = std::async(std::launch::async, [this]()
+				{
+					for (int i = 1; i < history_table_->rowCount(); i++)
+					{
+						table_items_.push_back(GetItemsFromRow(i));
+					}
+					data_retrieval_complete = true;
+					cv_.notify_one();
+				});
+		});
 }
 
 void CalibrateHistoryWidget::InitializeHistoryTable(bool is_refresh)
@@ -221,6 +278,17 @@ void CalibrateHistoryWidget::SetTableData(const std::vector<CalibrateData>& data
 		}
 	}
 }
+
+std::vector<QTableWidgetItem*> CalibrateHistoryWidget::GetItemsFromRow(int row)
+{
+	std::vector<QTableWidgetItem*> result;
+	for (int i = 0; i < history_table_->columnCount(); i++)
+	{
+		result.push_back(history_table_->item(row, i));
+	}
+	return result;
+}
+
 
 void CalibrateHistoryWidget::SetClearCalibrateHistoryCallback(const std::function<void()>& callback)
 {

@@ -39,6 +39,19 @@
     <string>Clear History</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="export_csv_btn">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>10</y>
+     <width>91</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Export to CSV</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
