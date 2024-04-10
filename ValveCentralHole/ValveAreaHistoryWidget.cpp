@@ -146,6 +146,9 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(const std::vector<MeasureData>& m
 	sorted_mapping_[area_header] = false;
 	sorted_mapping_[time_header] = false;
 
+	filename_header->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+	area_header->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+	time_header->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 	filename_header->setIcon(QIcon("down_arrow.png"));
 	area_header->setIcon(QIcon("down_arrow.png"));
 	time_header->setIcon(QIcon("down_arrow.png"));

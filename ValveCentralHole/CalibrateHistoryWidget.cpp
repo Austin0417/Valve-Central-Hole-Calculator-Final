@@ -225,6 +225,9 @@ void CalibrateHistoryWidget::InitializeHistoryTable(bool is_refresh)
 		QTableWidgetItem* filename_column_header = history_table_->item(0, 0);
 		QTableWidgetItem* calibration_factor_column_header = history_table_->item(0, 1);
 		QTableWidgetItem* time_column_header = history_table_->item(0, 2);
+		filename_column_header->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		calibration_factor_column_header->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		time_column_header->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 
 		filename_column_header->setIcon(QIcon("down_arrow.png"));
 		calibration_factor_column_header->setIcon(QIcon("down_arrow.png"));

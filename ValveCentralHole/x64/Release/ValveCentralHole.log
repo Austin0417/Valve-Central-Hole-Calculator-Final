@@ -1,11 +1,1 @@
-﻿  moc ValveCentralHole.h
-  CalculationHistoryDialog.cpp
-  CalibrateData.cpp
-  FileWriter.cpp
-  MeasureData.cpp
-  ValveCentralHole.cpp
-  ValveData.cpp
-  main.cpp
-C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\ValveCentralHole\FileWriter.cpp(16,1): warning C4715: 'splitString': not all control paths return a value
-  moc_ValveCentralHole.cpp
-  ValveCentralHole.vcxproj -> C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\x64\Release\ValveCentralHole.exe
+﻿  ValveCentralHole.vcxproj -> C:\Users\Austin\source\repos\Valve-Central-Hole-Calculator-Final\x64\Release\ValveCentralHole.exe
