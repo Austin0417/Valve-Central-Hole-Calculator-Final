@@ -112,6 +112,9 @@
     <ClCompile Include="BinaryDetailsLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ThresholdValueSpinBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CalibrateWidget.ui">
@@ -168,6 +171,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ValveAreaHistoryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ThresholdValueSpinBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

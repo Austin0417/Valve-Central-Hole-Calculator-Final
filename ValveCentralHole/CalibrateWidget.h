@@ -7,12 +7,14 @@
 #include "ImageCropDialog.h"
 #include "BinaryGaugeLabel.h"
 #include "BinaryDetailsLabel.h"
+#include "ThresholdValueSpinBox.h"
 #include <QCameraDevice>
 #include <QComboBox>
 #include <QString>
 #include <QWidget>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -96,6 +98,7 @@ private:
 
 	// UI Elements
 	std::unique_ptr<QDoubleSpinBox> diameter_input_;
+	std::unique_ptr<ThresholdValueSpinBox> threshold_value_spin_box_;
 	std::unique_ptr<QComboBox> diameter_unit_selection_;
 	std::unique_ptr<QSlider> threshold_input_slider_;
 	std::unique_ptr<QComboBox> threshold_mode_combo_box_;

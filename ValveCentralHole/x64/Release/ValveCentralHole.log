@@ -1,1 +1,8 @@
-﻿  ValveCentralHole.vcxproj -> C:\Users\Austin\source\repos\Valve-Central-Hole-Calculator-Final\x64\Release\ValveCentralHole.exe
+﻿  CalibrateWidget.cpp
+  MeasureWidget.cpp
+  ValveCentralHole.cpp
+  main.cpp
+  moc_CalibrateWidget.cpp
+  moc_MeasureWidget.cpp
+  moc_ValveCentralHole.cpp
+  ValveCentralHole.vcxproj -> C:\Users\Austin\source\repos\Valve-Central-Hole-Calculator-Final\x64\Release\ValveCentralHole.exe

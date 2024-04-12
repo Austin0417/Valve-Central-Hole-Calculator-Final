@@ -277,6 +277,8 @@ void CalibrateWidget::InitializeUIElements()
 	crop_image_btn_.reset(ui->crop_image_btn);
 	clear_image_btn_.reset(ui->clear_image_btn);
 
+	threshold_value_spin_box_ = std::make_unique<ThresholdValueSpinBox>(this);
+
 	binary_details_label_ = std::make_unique<BinaryDetailsLabel>(&num_total_pixels_, &num_white_pixels_, this);
 	binary_details_label_->setFixedWidth(21);
 	binary_details_label_->setFixedHeight(21);
@@ -426,6 +428,7 @@ void CalibrateWidget::ConnectEventListeners()
 			threshold_value_ = value;
 			qDebug() << "Slider value changed: " << value;
 			threshold_value_label_->setText(QString::number(threshold_value_));
+			threshold_value_spin_box_->setValue(threshold_value_);
 
 			// When the slider is moved, we want to update the preview image if it is currently shown
 			if (!current_image_mat_.empty() && !binarized_preview_image_mat_.empty() && isCurrentlyShowingPreview)
@@ -599,6 +602,23 @@ void CalibrateWidget::ConnectEventListeners()
 			if (binarized_preview_image_mat_.empty() || !imwrite((directory + "/" + file_name + " - Binary" + "." + file_extension).toStdString(), binarized_preview_image_mat_))
 			{
 				MessageBoxHelper::ShowErrorDialog("An error occurred while attempting to save the binary image (binary image mat is empty)");
+			}
+		});
+	connect(threshold_value_spin_box_.get(), &ThresholdValueSpinBox::OnReturnPressed, this, [this](int threshold_value)
+		{
+			SetIsCurrentlyShowingPreview(true);
+			DisplayPreviewMat();
+			threshold_value_ = threshold_value;
+			qDebug() << "Slider value changed: " << threshold_value;
+			threshold_value_label_->setText(QString::number(threshold_value_));
+
+			// When the slider is moved, we want to update the preview image if it is currently shown
+			if (!current_image_mat_.empty() && !binarized_preview_image_mat_.empty() && isCurrentlyShowingPreview)
+			{
+				tp_.enqueue([this, threshold_value]()
+					{
+						CreateBinaryImagePreview(*this, current_image_mat_, threshold_value, threshold_mode_combo_box_->currentIndex(), true, mutex_);
+					});
 			}
 		});
 }

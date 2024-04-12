@@ -113,6 +113,7 @@
     <ClCompile Include="CalibrateData.cpp" />
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="MeasureData.cpp" />
+    <ClCompile Include="ThresholdValueSpinBox.cpp" />
     <ClCompile Include="ValveAreaHistoryWidget.cpp" />
     <ClCompile Include="ValveData.cpp" />
     <QtRcc Include="ValveCentralHole.qrc" />
@@ -159,6 +160,7 @@
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="MeasureData.h" />
     <QtMoc Include="ValveAreaHistoryWidget.h" />
+    <QtMoc Include="ThresholdValueSpinBox.h" />
     <ClInclude Include="ValveData.h" />
     <QtMoc Include="CalibrationGaugeLabel.h" />
     <ClInclude Include="BinaryGaugeLabel.h" />
