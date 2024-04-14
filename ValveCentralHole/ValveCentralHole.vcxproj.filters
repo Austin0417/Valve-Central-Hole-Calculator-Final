@@ -115,6 +115,12 @@
     <ClCompile Include="ThresholdValueSpinBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SaveBinaryImageButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportBinaryImageButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CalibrateWidget.ui">
@@ -224,6 +230,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BinaryDetailsLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveBinaryImageButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportBinaryImageButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

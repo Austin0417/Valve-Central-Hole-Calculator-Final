@@ -202,6 +202,19 @@
     <string>127</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>954</x>
+     <y>140</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Import Binary Image</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

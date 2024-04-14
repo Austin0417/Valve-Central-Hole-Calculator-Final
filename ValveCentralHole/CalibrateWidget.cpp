@@ -276,6 +276,8 @@ void CalibrateWidget::InitializeUIElements()
 	clear_lines_btn_.reset(ui->clear_lines);
 	crop_image_btn_.reset(ui->crop_image_btn);
 	clear_image_btn_.reset(ui->clear_image_btn);
+	import_binary_image_btn_.reset(ui->import_binary_image_btn);
+	import_binary_image_file_dialog_ = std::make_unique<QFileDialog>(this);
 
 	threshold_value_spin_box_ = std::make_unique<ThresholdValueSpinBox>(this);
 
@@ -490,7 +492,7 @@ void CalibrateWidget::ConnectEventListeners()
 	connect(calibrate_btn_.get(), &QPushButton::clicked, this, [this]() {
 
 
-		if (current_image_mat_.empty() || binarized_preview_image_mat_.empty())
+		if (current_image_mat_.empty() && binarized_preview_image_mat_.empty())
 		{
 			MessageBoxHelper::ShowErrorDialog("Select an input image first");
 			return;
@@ -619,6 +621,21 @@ void CalibrateWidget::ConnectEventListeners()
 					{
 						CreateBinaryImagePreview(*this, current_image_mat_, threshold_value, threshold_mode_combo_box_->currentIndex(), true, mutex_);
 					});
+			}
+		});
+
+	connect(import_binary_image_btn_.get(), &QPushButton::clicked, this, [this]()
+		{
+			import_binary_image_file_dialog_->exec();
+		});
+	connect(import_binary_image_file_dialog_.get(), &QFileDialog::fileSelected, this, [this](const QString& filename)
+		{
+			Mat selected_binary_image = imread(filename.toStdString(), IMREAD_GRAYSCALE);
+
+			if (!selected_binary_image.empty())
+			{
+				binarized_preview_image_mat_ = selected_binary_image;
+				DisplayPreviewMat();
 			}
 		});
 }

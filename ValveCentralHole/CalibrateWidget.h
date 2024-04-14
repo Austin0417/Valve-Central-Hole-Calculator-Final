@@ -122,6 +122,9 @@ private:
 	std::unique_ptr<QPushButton> save_binary_btn_;
 	std::unique_ptr<QFileDialog> save_binary_dialog_;
 
+	std::unique_ptr<QPushButton> import_binary_image_btn_;
+	std::unique_ptr<QFileDialog> import_binary_image_file_dialog_;
+
 	void InitializeUIElements();
 	void CheckForLastCalibrationParameters();
 	void ConnectEventListeners();

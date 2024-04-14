@@ -357,6 +357,22 @@
     <string>Save Binary Image</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="import_binary_image_btn">
+   <property name="geometry">
+    <rect>
+     <x>920</x>
+     <y>130</y>
+     <width>121</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: white;</string>
+   </property>
+   <property name="text">
+    <string>Import Binary Image</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

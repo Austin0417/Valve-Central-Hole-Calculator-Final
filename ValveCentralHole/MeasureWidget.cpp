@@ -31,6 +31,17 @@ MeasureWidget::MeasureWidget(QWidget* parent)
 	threshold_value_slider_.reset(ui->threshold_value_slider);
 	threshold_value_display_label_.reset(ui->threshold_value_display);
 
+	threshold_value_spin_box_ = std::make_unique<ThresholdValueSpinBox>(this);
+	save_binary_image_btn_ = std::make_unique<SaveBinaryImageButton>(1110, 140, 111, 24, this);
+	save_binary_image_btn_->BindBinaryMat(&binarized_image_preview_mat_);
+
+	import_binary_image_btn_ = std::make_unique<ImportBinaryImageButton>(954, 140, 121, 24, this);
+	import_binary_image_btn_->AttachToParentLabel(binarized_image_.get());
+	import_binary_image_btn_->AttachParentWidgetCallback([this](const QString& selected_file)
+		{
+			binarized_image_preview_mat_ = imread(selected_file.toStdString(), IMREAD_GRAYSCALE);
+		});
+
 	file_dialog_ = std::make_unique<QFileDialog>(this, "Select Valve Image");
 	file_dialog_->setStyleSheet("background: white;");
 
@@ -62,6 +73,22 @@ void MeasureWidget::InitializeUIElements() {
 	threshold_value_slider_->setValue(127);
 }
 
+void MeasureWidget::PerformValveAreaMeasurement()
+{
+	if (current_image_mat_.empty() && binarized_image_preview_mat_.empty())
+	{
+		MessageBoxHelper::ShowErrorDialog("Select an input image first");
+		return;
+	}
+
+	auto thread_handle = std::async(std::launch::async, [this]()
+		{
+			std::pair<unsigned long long, unsigned long long> num_on_off_pixels = BinarizeImageHelper::GetNumberOfOnAndOffPixels(binarized_image_preview_mat_);
+			emit this->onAreaCalculationComplete(BinarizeImageHelper::CalculateValveArea(num_on_off_pixels.first, CalibrateWidget::GetCalibrationFactor()));
+		});
+}
+
+
 int MeasureWidget::GetThresholdValue() const
 {
 	return threshold_value_;
@@ -77,6 +104,15 @@ void MeasureWidget::SetMeasureDataCallback(const std::function<void(const Measur
 	measure_data_callback_ = callback;
 }
 
+void MeasureWidget::SetCurrentImageFilename(const QString& filename)
+{
+	current_image_filename_ = filename;
+	if (save_binary_image_btn_ != nullptr)
+	{
+		save_binary_image_btn_->UpdateCurrentImageFilename(current_image_filename_);
+	}
+}
+
 
 void MeasureWidget::ConnectEventListeners() {
 	connect(select_valve_image_.get(), &QPushButton::clicked, this, [this]() {
@@ -89,18 +125,12 @@ void MeasureWidget::ConnectEventListeners() {
 		});
 
 	connect(measure_btn_.get(), &QPushButton::clicked, this, [this]() {
-		// TODO Implement functionality for measuring the valve here
-		if (current_image_mat_.empty() || binarized_image_preview_mat_.empty())
-		{
-			MessageBoxHelper::ShowErrorDialog("Select an input image first");
-			return;
-		}
+		PerformValveAreaMeasurement();
+		});
 
-		auto thread_handle = std::async(std::launch::async, [this]()
-			{
-				std::pair<unsigned long long, unsigned long long> num_on_off_pixels = BinarizeImageHelper::GetNumberOfOnAndOffPixels(binarized_image_preview_mat_);
-				emit this->onAreaCalculationComplete(BinarizeImageHelper::CalculateValveArea(num_on_off_pixels.first, CalibrateWidget::GetCalibrationFactor()));
-			});
+	connect(threshold_value_spin_box_.get(), &ThresholdValueSpinBox::OnReturnPressed, this, [this](int threshold_value)
+		{
+			PerformValveAreaMeasurement();
 		});
 
 	connect(this, &MeasureWidget::onAreaCalculationComplete, this, [this](double valve_area)
@@ -132,7 +162,7 @@ void MeasureWidget::ConnectEventListeners() {
 
 		QPixmap image = QPixmap(filename).scaled(QSize(IMAGE_WIDTH, IMAGE_HEIGHT));
 		original_image_->setPixmap(image);
-		current_image_filename_ = filename;
+		SetCurrentImageFilename(filename);
 
 		auto thread_handle = std::async(std::launch::async, &CreateBinaryImagePreview, std::ref(*this), std::ref(current_image_mat_), false);
 		});
@@ -158,6 +188,7 @@ void MeasureWidget::ConnectEventListeners() {
 		{
 
 		});
+
 }
 
 void MeasureWidget::RefreshCalibrationFactor()

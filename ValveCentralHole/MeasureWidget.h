@@ -2,6 +2,8 @@
 #include <QWidget>
 #include "CalibrateWidget.h"
 #include "ui_MeasureWidget.h"
+#include "SaveBinaryImageButton.h"
+#include "ImportBinaryImageButton.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QSpinBox>
@@ -25,6 +27,7 @@ public:
 	int GetThresholdValue() const;
 	void SetPreviewMat(Mat preview_mat);
 	void SetMeasureDataCallback(const std::function<void(const MeasureData&)>& callback);
+	void SetCurrentImageFilename(const QString& filename);
 
 signals:
 	void UpdatePreviewMat();
@@ -43,6 +46,7 @@ private:
 
 	std::unique_ptr<QLabel> calibration_factor_label_;
 	std::unique_ptr<QPushButton> select_valve_image_;
+	std::unique_ptr<ThresholdValueSpinBox> threshold_value_spin_box_;
 	std::unique_ptr<QPushButton> preview_btn_;
 	std::unique_ptr<QPushButton> measure_btn_;
 	std::unique_ptr<QLabel> original_image_;
@@ -51,8 +55,11 @@ private:
 	std::unique_ptr<QSlider> threshold_value_slider_;
 	std::unique_ptr<QLabel> threshold_value_display_label_;
 	std::unique_ptr<QFileDialog> file_dialog_;
+	std::unique_ptr<SaveBinaryImageButton> save_binary_image_btn_;
+	std::unique_ptr<ImportBinaryImageButton> import_binary_image_btn_;
 
 	void InitializeUIElements();
 	void ConnectEventListeners();
+	void PerformValveAreaMeasurement();
 	void DisplayPreviewMat();
 };

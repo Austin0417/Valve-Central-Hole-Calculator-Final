@@ -70,7 +70,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\OpenCV\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world490.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world490d.lib;opencv_world490d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -79,7 +79,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\OpenCV\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world490.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world490d.lib;opencv_world490.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -112,7 +112,9 @@
     <ClCompile Include="CalibrateHistoryWidget.cpp" />
     <ClCompile Include="CalibrateData.cpp" />
     <ClCompile Include="FileWriter.cpp" />
+    <ClCompile Include="ImportBinaryImageButton.cpp" />
     <ClCompile Include="MeasureData.cpp" />
+    <ClCompile Include="SaveBinaryImageButton.cpp" />
     <ClCompile Include="ThresholdValueSpinBox.cpp" />
     <ClCompile Include="ValveAreaHistoryWidget.cpp" />
     <ClCompile Include="ValveData.cpp" />
@@ -158,9 +160,11 @@
     <QtMoc Include="CalibrateHistoryWidget.h" />
     <ClInclude Include="CalibrateData.h" />
     <ClInclude Include="FileWriter.h" />
+    <ClInclude Include="ImportBinaryImageButton.h" />
     <ClInclude Include="MeasureData.h" />
     <QtMoc Include="ValveAreaHistoryWidget.h" />
     <QtMoc Include="ThresholdValueSpinBox.h" />
+    <ClInclude Include="SaveBinaryImageButton.h" />
     <ClInclude Include="ValveData.h" />
     <QtMoc Include="CalibrationGaugeLabel.h" />
     <ClInclude Include="BinaryGaugeLabel.h" />
