@@ -3,13 +3,13 @@
 #include "ValveAreaHistoryWidget.h"
 
 
-CalculationHistoryDialog::CalculationHistoryDialog(const std::vector<CalibrateData>& calibrate_history, const std::vector<MeasureData>& measure_history, QWidget* parent) :
-	QDialog(parent), calibrate_history_(calibrate_history), measure_history_(measure_history)
+CalculationHistoryDialog::CalculationHistoryDialog(QWidget* parent) :
+	QDialog(parent)
 {
 	ui.setupUi(this);
 
-	calibration_gauge_history_ = std::make_unique<CalibrateHistoryWidget>(calibrate_history_, this);
-	valve_area_history_ = std::make_unique<ValveAreaHistoryWidget>(measure_history_, this);
+	calibration_gauge_history_ = std::make_unique<CalibrateHistoryWidget>(this);
+	valve_area_history_ = std::make_unique<ValveAreaHistoryWidget>(this);
 
 	calibration_gauge_history_->SetClearCalibrateHistoryCallback([this]()
 		{
@@ -71,4 +71,10 @@ std::unique_ptr<ValveAreaHistoryWidget>& CalculationHistoryDialog::GetValveAreaH
 	return valve_area_history_;
 }
 
+int CalculationHistoryDialog::exec()
+{
+	calibration_gauge_history_->RefreshTableData();
+	valve_area_history_->RefreshTableData();
 
+	return QDialog::exec();
+}

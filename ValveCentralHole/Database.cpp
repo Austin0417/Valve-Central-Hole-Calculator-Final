@@ -7,12 +7,8 @@ QSqlDatabase& Database::GetDatabase()
 {
 	if (!db_.isValid())
 	{
-		db_ = QSqlDatabase::addDatabase("QPSQL");
-		db_.setDatabaseName("valve_central_hole");
-		db_.setHostName("localhost");
-		db_.setPassword("I<3games");
-		db_.setPort(5432);
-		db_.setUserName("postgres");
+		db_ = QSqlDatabase::addDatabase("QSQLITE");
+		db_.setDatabaseName("valve_central_hole_db");
 
 		if (!db_.open())
 		{
@@ -32,30 +28,38 @@ void Database::InitializeDatabaseTables()
 		return;
 	}
 
-	// Defining custom enum data types
 	QSqlQuery query(db);
-	if (!query.exec("CREATE TYPE DIAMETER_UNIT AS ENUM ('millimeters', 'inches');"))
+
+
+	QString query_string = "CREATE TABLE IF NOT EXISTS calibration_history ("
+		"calibration_gauge_filename TEXT,"
+		"calculated_calibration_factor DECIMAL(10, 5),"
+		"calibration_units TEXT,"
+		"time_of_calibration TEXT)";
+
+	if (!query.exec(query_string))
 	{
 		qDebug() << query.lastError().text();
 	}
+	else
+	{
+		qDebug() << "Created calibration history table successfully";
+	}
+
 	query.clear();
+	query_string = "CREATE TABLE IF NOT EXISTS valve_measure_history ("
+		"valve_image_filename TEXT,"
+		"measured_valve_area DECIMAL(10, 5),"
+		"valve_measure_units TEXT,"
+		"time_of_measurement TEXT)";
 
-	if (!query.exec("CREATE TYPE THRESHOLD_MODE AS ENUM ('standard', 'inverted');"))
+	if (!query.exec(query_string))
 	{
 		qDebug() << query.lastError().text();
 	}
-	query.clear();
-
-
-	QString queryString = "CREATE TABLE IF NOT EXISTS calibration_gauge_parameters ("
-		"id SERIAL PRIMARY KEY,"
-		"gauge_diameter DOUBLE PRECISION,"
-		"diameter_unit_selection DIAMETER_UNIT,"
-		"threshold_value SMALLINT,"
-		"threshold_mode_selection THRESHOLD_MODE,"
-		"image_file_name VARCHAR(255))";
-	if (!query.exec(queryString))
+	else
 	{
-		qDebug() << query.lastError().text();
+		qDebug() << "Created measure history table successfully";
 	}
+
 }

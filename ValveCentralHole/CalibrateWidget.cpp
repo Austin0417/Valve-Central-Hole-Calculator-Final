@@ -1,5 +1,6 @@
 #include "CalibrateWidget.h"
 #include "MessageBoxHelper.h"
+#include "CalibrateDataDAO.h"
 #include "qmediadevices.h"
 
 
@@ -534,14 +535,23 @@ void CalibrateWidget::ConnectEventListeners()
 	connect(this, &CalibrateWidget::OnCalibrationComplete, this, [this](double calibrationFactor) {
 		calibration_factor_ = calibrationFactor;
 		DisplayCalibrationFactor();
-		if (save_calibrate_data_to_file_callback_)
-		{
-			QList<QString> parsed_filename = selected_image_filename_.split("/");
-			QString target_filename = parsed_filename[parsed_filename.size() - 1];
+		QList<QString> parsed_filename = selected_image_filename_.split("/");
+		QString target_filename = parsed_filename[parsed_filename.size() - 1];
 
-			save_calibrate_data_to_file_callback_(CalibrateData(target_filename.toStdString(),
-				QDateTime::currentDateTimeUtc().toLocalTime().toString().toStdString(), current_unit_selection_, calibrationFactor));
-		}
+		/*
+		save_calibrate_data_to_file_callback_(CalibrateData(target_filename.toStdString(),
+			QDateTime::currentDateTimeUtc().toLocalTime().toString().toStdString(), current_unit_selection_, calibrationFactor));*/
+
+			// Save to the local database asynchronously
+		tp_.enqueue([this, target_filename]()
+			{
+				CalibrateDataDAO dao;
+
+				if (dao.InsertCalibrateData(CalibrateData(target_filename.toStdString(), QDateTime::currentDateTimeUtc().toLocalTime().toString().toStdString(), current_unit_selection_, calibration_factor_)))
+				{
+					qDebug() << "Successfully added new calibration data log";
+				}
+			});
 		});
 
 	connect(crop_image_btn_.get(), &QPushButton::clicked, this, [this]()

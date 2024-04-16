@@ -1,4 +1,5 @@
-﻿  uic CalibrateWidget.ui
+﻿  ImportBinaryImageButton.cpp
+  SaveBinaryImageButton.cpp
   CalibrateWidget.cpp
   MeasureWidget.cpp
   ValveCentralHole.cpp
@@ -6,4 +7,4 @@
   moc_CalibrateWidget.cpp
   moc_MeasureWidget.cpp
   moc_ValveCentralHole.cpp
-LINK : fatal error LNK1104: cannot open file 'C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\x64\Release\ValveCentralHole.exe'
+  ValveCentralHole.vcxproj -> C:\Users\Austin Luu\source\repos\Valve-Central-Hole-Calculator-Final\x64\Release\ValveCentralHole.exe

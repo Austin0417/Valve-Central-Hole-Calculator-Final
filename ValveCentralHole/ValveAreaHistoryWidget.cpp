@@ -3,6 +3,8 @@
 #include <future>
 #include <QDateTime>
 
+#include "MeasureDataDAO.h"
+
 
 static std::vector<MeasureData> SortValveData(const std::vector<MeasureData>& valve_data, const ValveAreaHistoryWidget::SortOption& option)
 {
@@ -115,7 +117,7 @@ static ValveAreaHistoryWidget::SortOption OnColumnHeaderClicked(QTableWidgetItem
 	return result;
 }
 
-ValveAreaHistoryWidget::ValveAreaHistoryWidget(const std::vector<MeasureData>& measure_history, QWidget* parent) : measure_history_(measure_history), QWidget(parent)
+ValveAreaHistoryWidget::ValveAreaHistoryWidget(QWidget* parent) : QWidget(parent)
 {
 	ui.setupUi(this);
 
@@ -153,7 +155,19 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(const std::vector<MeasureData>& m
 	area_header->setIcon(QIcon("down_arrow.png"));
 	time_header->setIcon(QIcon("down_arrow.png"));
 
-	SetTableData(measure_history_);
+	//SetTableData(measure_history_);
+	auto fetch_from_database = std::async(std::launch::async, [this]()
+		{
+			MeasureDataDAO dao;
+			measure_history_ = dao.GetAllMeasureData();
+			emit this->OnDataInitialLoadComplete();
+		});
+
+
+	connect(this, &ValveAreaHistoryWidget::OnDataInitialLoadComplete, this, [this]()
+		{
+			SetTableData(measure_history_);
+		});
 
 	connect(clear_btn_.get(), &QPushButton::clicked, this, [this]()
 		{
@@ -236,6 +250,12 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(const std::vector<MeasureData>& m
 					cv_.notify_one();
 				});
 		});
+
+	connect(this, &ValveAreaHistoryWidget::OnTableRefreshComplete, this, [this]()
+		{
+			ClearTable(true);
+			SetTableData(measure_history_);
+		});
 }
 
 void ValveAreaHistoryWidget::AddRowToTable(const MeasureData& data)
@@ -274,6 +294,17 @@ void ValveAreaHistoryWidget::SetClearValveAreaHistoryCallback(const std::functio
 {
 	clear_valve_area_history_callback_ = callback;
 }
+
+void ValveAreaHistoryWidget::RefreshTableData()
+{
+	auto refresh_thread = std::async(std::launch::async, [this]()
+		{
+			MeasureDataDAO dao;
+			measure_history_ = dao.GetAllMeasureData();
+			emit this->OnTableRefreshComplete();
+		});
+}
+
 
 std::vector<QTableWidgetItem*> ValveAreaHistoryWidget::GetItemsFromRow(int row)
 {

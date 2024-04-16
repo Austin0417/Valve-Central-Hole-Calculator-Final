@@ -21,6 +21,48 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="Header Files\database">
+      <UniqueIdentifier>{c121b47f-e27f-4a6f-a227-33ede69ec28c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\database">
+      <UniqueIdentifier>{bd626e78-b2c3-49d6-914a-0a5366a6858c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\derived_subwidgets">
+      <UniqueIdentifier>{000e6ba8-bb95-468e-b77b-faaefba8ed31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dialogs">
+      <UniqueIdentifier>{baa6f75d-3077-4072-a2f1-056c620df777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{bc44128f-4b39-4cc9-a2dc-9a5d117427a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helpers">
+      <UniqueIdentifier>{a7ac53d6-29bf-4720-b0ca-316a27271a48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\main_widgets">
+      <UniqueIdentifier>{823e6e19-dd05-4591-9e1a-dea9663e0eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\threading">
+      <UniqueIdentifier>{e9b53f22-b735-4e47-8eb4-2eef2af0ea18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\derived_subwidgets">
+      <UniqueIdentifier>{ebe61cc6-d254-47bc-a0f2-96e581f9fd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dialogs">
+      <UniqueIdentifier>{f7d2cca4-cb29-4914-ae18-b5a10034e1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{f7c8a6d7-a1e9-47b6-b4f0-55237c3070a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helpers">
+      <UniqueIdentifier>{fd7d067a-45a3-4be6-b4e3-cfd861cc266b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main_widgets">
+      <UniqueIdentifier>{99cb128b-6bd2-4756-ab09-7c49d916dd6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\threading">
+      <UniqueIdentifier>{fb25987c-b4cf-42b9-ac2b-e1acb4887cd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ValveCentralHole.qrc">
@@ -29,97 +71,100 @@
     <QtUic Include="ValveCentralHole.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="ValveCentralHole.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="ValveCentralHole.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CalibrateWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MessageBoxHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BinarizeImageHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MeasureWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Database.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\database</Filter>
     </ClCompile>
     <ClCompile Include="CalibrationGaugeDiameterDAO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CalibrationGaugeParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraDisplayDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraConfirmationDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraConfirmLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageCropDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CalibrationGaugeLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BinaryGaugeLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectImageCropDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraSelectionDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ValveData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CalibrateData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MeasureData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CalculationHistoryDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CalibrateHistoryWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ValveAreaHistoryWidget.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\database</Filter>
     </ClCompile>
     <ClCompile Include="BinaryDetailsLabel.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\derived_subwidgets</Filter>
     </ClCompile>
-    <ClCompile Include="ThresholdValueSpinBox.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BinaryGaugeLabel.cpp">
+      <Filter>Source Files\derived_subwidgets</Filter>
     </ClCompile>
-    <ClCompile Include="SaveBinaryImageButton.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CalibrationGaugeLabel.cpp">
+      <Filter>Source Files\derived_subwidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraConfirmLabel.cpp">
+      <Filter>Source Files\derived_subwidgets</Filter>
     </ClCompile>
     <ClCompile Include="ImportBinaryImageButton.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\derived_subwidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveBinaryImageButton.cpp">
+      <Filter>Source Files\derived_subwidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ThresholdValueSpinBox.cpp">
+      <Filter>Source Files\derived_subwidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculationHistoryDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraConfirmationDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSelectionDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraDisplayDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectImageCropDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropDialog.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CalibrateData.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="FileWriter.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="CalibrationGaugeParameters.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureData.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ValveData.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="BinarizeImageHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageBoxHelper.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="CalibrateHistoryWidget.cpp">
+      <Filter>Source Files\main_widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CalibrateWidget.cpp">
+      <Filter>Source Files\main_widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureWidget.cpp">
+      <Filter>Source Files\main_widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ValveAreaHistoryWidget.cpp">
+      <Filter>Source Files\main_widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ValveCentralHole.cpp">
+      <Filter>Source Files\main_widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Source Files\threading</Filter>
+    </ClCompile>
+    <ClCompile Include="CalibrateDataDAO.cpp">
+      <Filter>Source Files\database</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasureDataDAO.cpp">
+      <Filter>Source Files\database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,88 +200,97 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="CalibrateWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="MeasureWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CameraDisplayDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="ImageCropDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="CalibrationGaugeLabel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="SelectImageCropDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CalibrateHistoryWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="ValveAreaHistoryWidget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\derived_subwidgets</Filter>
     </QtMoc>
     <QtMoc Include="ThresholdValueSpinBox.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\derived_subwidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="CameraDisplayDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </QtMoc>
+    <QtMoc Include="SelectImageCropDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageCropDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </QtMoc>
+    <QtMoc Include="CalibrateHistoryWidget.h">
+      <Filter>Header Files\main_widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="CalibrateWidget.h">
+      <Filter>Header Files\main_widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="MeasureWidget.h">
+      <Filter>Header Files\main_widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="ValveAreaHistoryWidget.h">
+      <Filter>Header Files\main_widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="ValveCentralHole.h">
+      <Filter>Header Files\main_widgets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MessageBoxHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BinarizeImageHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Database.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\database</Filter>
     </ClInclude>
     <ClInclude Include="CalibrationGaugeParametersDAO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CalibrationGaugeParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraConfirmationDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraConfirmLabel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryGaugeLabel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraSelectionDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ValveData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CalibrateData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MeasureData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CalculationHistoryDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileWriter.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\database</Filter>
     </ClInclude>
     <ClInclude Include="BinaryDetailsLabel.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\derived_subwidgets</Filter>
     </ClInclude>
-    <ClInclude Include="SaveBinaryImageButton.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BinaryGaugeLabel.h">
+      <Filter>Header Files\derived_subwidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraConfirmLabel.h">
+      <Filter>Header Files\derived_subwidgets</Filter>
     </ClInclude>
     <ClInclude Include="ImportBinaryImageButton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\derived_subwidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveBinaryImageButton.h">
+      <Filter>Header Files\derived_subwidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraConfirmationDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraSelectionDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculationHistoryDialog.h">
+      <Filter>Header Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="BinarizeImageHelper.h">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBoxHelper.h">
+      <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ValveData.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureData.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="CalibrateData.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="CalibrationGaugeParameters.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="FileWriter.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Header Files\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="CalibrateDataDAO.h">
+      <Filter>Header Files\database</Filter>
+    </ClInclude>
+    <ClInclude Include="MeasureDataDAO.h">
+      <Filter>Header Files\database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

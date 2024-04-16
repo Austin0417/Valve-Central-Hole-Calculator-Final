@@ -25,9 +25,10 @@ private:
 	std::unique_ptr<QPushButton> clear_btn_;
 	std::unique_ptr<QPushButton> export_csv_btn_;
 	std::unique_ptr<QFileDialog> save_csv_file_dialog_;
-	const std::vector<MeasureData>& measure_history_;
 	std::function<void()> clear_valve_area_history_callback_;
 	std::unordered_map<QTableWidgetItem*, bool> sorted_mapping_;
+
+	std::vector<MeasureData> measure_history_;
 
 	// Multithreading data members
 	std::vector<std::vector<QTableWidgetItem*>> table_items_;
@@ -50,11 +51,14 @@ public:
 		TIME_DESCENDING
 	};
 
-	ValveAreaHistoryWidget(const std::vector<MeasureData>& measure_history, QWidget* parent = nullptr);
+	ValveAreaHistoryWidget(QWidget* parent = nullptr);
 	void SetClearValveAreaHistoryCallback(const std::function<void()>& callback);
+	void RefreshTableData();
 	void ClearTable(bool exclude_first_row = false);
 
 signals:
+	void OnDataInitialLoadComplete();
+	void OnTableRefreshComplete();
 	void OnSortComplete(const std::vector<MeasureData>& sorted);
 };
 

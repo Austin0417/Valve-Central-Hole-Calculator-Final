@@ -109,11 +109,13 @@
   <ItemGroup>
     <ClCompile Include="BinaryDetailsLabel.cpp" />
     <ClCompile Include="CalculationHistoryDialog.cpp" />
+    <ClCompile Include="CalibrateDataDAO.cpp" />
     <ClCompile Include="CalibrateHistoryWidget.cpp" />
     <ClCompile Include="CalibrateData.cpp" />
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="ImportBinaryImageButton.cpp" />
     <ClCompile Include="MeasureData.cpp" />
+    <ClCompile Include="MeasureDataDAO.cpp" />
     <ClCompile Include="SaveBinaryImageButton.cpp" />
     <ClCompile Include="ThresholdValueSpinBox.cpp" />
     <ClCompile Include="ValveAreaHistoryWidget.cpp" />
@@ -159,11 +161,13 @@
     <ClInclude Include="CalculationHistoryDialog.h" />
     <QtMoc Include="CalibrateHistoryWidget.h" />
     <ClInclude Include="CalibrateData.h" />
+    <ClInclude Include="CalibrateDataDAO.h" />
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="ImportBinaryImageButton.h" />
     <ClInclude Include="MeasureData.h" />
     <QtMoc Include="ValveAreaHistoryWidget.h" />
     <QtMoc Include="ThresholdValueSpinBox.h" />
+    <ClInclude Include="MeasureDataDAO.h" />
     <ClInclude Include="SaveBinaryImageButton.h" />
     <ClInclude Include="ValveData.h" />
     <QtMoc Include="CalibrationGaugeLabel.h" />

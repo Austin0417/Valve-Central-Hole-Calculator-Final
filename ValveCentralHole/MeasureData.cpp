@@ -36,3 +36,10 @@ std::string MeasureData::GetFileNameType() const
 {
 	return FileWriter::MEASURE_AREA_HISTORY_FILENAME;
 }
+
+
+std::ostream& operator<<(std::ostream& os, const MeasureData& measure_data)
+{
+	os << measure_data.processed_file_name_ << ", " << measure_data.processed_at_time_ << ", " << CalibrationGaugeParameters::UnitSelectionToString(measure_data.units_).toStdString() << ", " << measure_data.measured_valve_area_;
+	return os;
+}

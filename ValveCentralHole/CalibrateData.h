@@ -12,5 +12,6 @@ public:
 	void SetCalibrationFactor(const double& factor);
 	std::string ToFileFormat() const override;
 	std::string GetFileNameType() const override;
+	friend std::ostream& operator<<(std::ostream& os, const CalibrateData& data);
 };
 

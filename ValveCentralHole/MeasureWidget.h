@@ -9,6 +9,7 @@
 #include <QSpinBox>
 #include <QFileDialog>
 #include <memory>
+#include <queue>
 
 #include "MeasureData.h"
 
@@ -58,7 +59,14 @@ private:
 	std::unique_ptr<SaveBinaryImageButton> save_binary_image_btn_;
 	std::unique_ptr<ImportBinaryImageButton> import_binary_image_btn_;
 
+	// For saving to the database
+	std::queue<MeasureData> latest_measure_data_;
+	std::mutex database_thread_wait_mutex_;
+	std::mutex measure_data_queue_mutex_;
+	std::condition_variable database_thread_cv_;
+
 	void InitializeUIElements();
+	void StartDatabaseWriteThread();
 	void ConnectEventListeners();
 	void PerformValveAreaMeasurement();
 	void DisplayPreviewMat();

@@ -21,6 +21,12 @@ enum OptionsMenuSelection
 	CAMERA
 };
 
+enum class ClearTable
+{
+	CALIBRATION_TABLE,
+	VALVE_TABLE
+};
+
 class ValveCentralHole : public QMainWindow
 {
 	Q_OBJECT
@@ -28,6 +34,10 @@ class ValveCentralHole : public QMainWindow
 public:
 	ValveCentralHole(QWidget* parent = nullptr);
 	~ValveCentralHole();
+
+signals:
+	void OnCalibrateDataCleared();
+	void OnMeasureDataCleared();
 
 private:
 	Ui::ValveCentralHoleClass ui;
@@ -41,17 +51,17 @@ private:
 	QMenu* helper_tool_submenu_;
 	std::unique_ptr<bool> is_gauge_helper_tool_active_;
 
-	FileWriter file_writer_;
 	std::vector<CalibrateData> calibrate_history_;
 	std::vector<MeasureData> measure_history_;
-	int num_lines_calibrate_history_;
-	int num_lines_valve_history_;
-	std::mutex file_thread_mutex_;
-	std::condition_variable file_thread_cv_;
-	std::queue<std::unique_ptr<ValveData>> data_queue_;
+
+	std::queue<ClearTable> clear_thread_queue_;
+	std::mutex clear_thread_wait_mutex_;
+	std::mutex clear_thread_queue_mutex_;
+	std::condition_variable clear_thread_cv_;
+
 	std::unique_ptr<CalculationHistoryDialog> history_dialog_;
 
 	void InitializeUIElements();
 	void ConnectEventListeners();
-	void LaunchFileWriterThread();
+	void LaunchDatabaseClearThread();
 };

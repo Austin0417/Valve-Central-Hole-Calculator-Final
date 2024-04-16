@@ -36,3 +36,10 @@ std::string CalibrateData::GetFileNameType() const
 {
 	return FileWriter::CALIBRATE_HISTORY_FILENAME;
 }
+
+
+std::ostream& operator<<(std::ostream& os, const CalibrateData& data)
+{
+	os << data.processed_file_name_ << ", " << data.processed_at_time_ << ", " << CalibrationGaugeParameters::UnitSelectionToString(data.units_).toStdString() << ", " << data.calibration_factor_;
+	return os;
+}

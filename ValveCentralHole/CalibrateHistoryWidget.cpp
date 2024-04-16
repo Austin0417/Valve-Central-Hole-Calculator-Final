@@ -3,6 +3,8 @@
 #include <QDateTime>
 #include <future>
 
+#include "CalibrateDataDAO.h"
+
 
 static std::vector<CalibrateData> SortCalibrateData(const std::vector<CalibrateData>& calibrate_data, const CalibrateHistoryWidget::SortOption& option)
 {
@@ -63,8 +65,8 @@ static std::vector<CalibrateData> SortCalibrateData(const std::vector<CalibrateD
 }
 
 
-CalibrateHistoryWidget::CalibrateHistoryWidget(const std::vector<CalibrateData>& calibrate_history, QWidget* parent)
-	: QWidget(parent), calibrate_history_(calibrate_history)
+CalibrateHistoryWidget::CalibrateHistoryWidget(QWidget* parent)
+	: QWidget(parent)
 {
 	ui.setupUi(this);
 
@@ -75,7 +77,19 @@ CalibrateHistoryWidget::CalibrateHistoryWidget(const std::vector<CalibrateData>&
 	save_csv_file_dialog_->setFileMode(QFileDialog::Directory);
 
 	InitializeHistoryTable();
-	SetTableData(calibrate_history_);
+	//SetTableData(calibrate_history_);
+
+	std::future<void> query_from_database = std::async(std::launch::async, [this]()
+		{
+			CalibrateDataDAO dao;
+			calibrate_history_ = dao.GetAllCalibrateData();
+			emit this->OnDataInitialLoadComplete();
+		});
+
+	connect(this, &CalibrateHistoryWidget::OnDataInitialLoadComplete, this, [this]()
+		{
+			SetTableData(calibrate_history_);
+		});
 
 	connect(clear_btn_.get(), &QPushButton::clicked, this, [this]()
 		{
@@ -203,6 +217,11 @@ CalibrateHistoryWidget::CalibrateHistoryWidget(const std::vector<CalibrateData>&
 					cv_.notify_one();
 				});
 		});
+
+	connect(this, &CalibrateHistoryWidget::OnTableRefreshComplete, this, [this]()
+		{
+			SetTableData(calibrate_history_, true);
+		});
 }
 
 void CalibrateHistoryWidget::InitializeHistoryTable(bool is_refresh)
@@ -297,6 +316,17 @@ void CalibrateHistoryWidget::SetClearCalibrateHistoryCallback(const std::functio
 {
 	clear_calibrate_history_callback_ = callback;
 }
+
+void CalibrateHistoryWidget::RefreshTableData()
+{
+	auto refresh_thread = std::async(std::launch::async, [this]()
+		{
+			CalibrateDataDAO dao;
+			calibrate_history_ = dao.GetAllCalibrateData();
+			emit this->OnTableRefreshComplete();
+		});
+}
+
 
 void CalibrateHistoryWidget::ClearTable()
 {

@@ -33,6 +33,7 @@ public:
     QLabel *label;
     QSlider *threshold_value_slider;
     QLabel *threshold_value_display;
+    QPushButton *pushButton;
 
     void setupUi(QWidget *MeasureWidget)
     {
@@ -87,6 +88,9 @@ public:
         threshold_value_display->setObjectName("threshold_value_display");
         threshold_value_display->setGeometry(QRect(730, 60, 151, 21));
         threshold_value_display->setStyleSheet(QString::fromUtf8("font-size: 25px;"));
+        pushButton = new QPushButton(MeasureWidget);
+        pushButton->setObjectName("pushButton");
+        pushButton->setGeometry(QRect(954, 140, 121, 24));
 
         retranslateUi(MeasureWidget);
 
@@ -107,6 +111,7 @@ public:
         valve_area_label->setText(QCoreApplication::translate("MeasureWidget", "Calculated Valve Area: ", nullptr));
         label->setText(QCoreApplication::translate("MeasureWidget", "Threshold Value:", nullptr));
         threshold_value_display->setText(QCoreApplication::translate("MeasureWidget", "127", nullptr));
+        pushButton->setText(QCoreApplication::translate("MeasureWidget", "Import Binary Image", nullptr));
     } // retranslateUi
 
 };

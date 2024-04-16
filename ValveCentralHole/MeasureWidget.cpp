@@ -1,4 +1,5 @@
 #include "MeasureWidget.h"
+#include "MeasureDataDAO.h"
 #include "messageboxhelper.h"
 
 
@@ -46,6 +47,7 @@ MeasureWidget::MeasureWidget(QWidget* parent)
 	file_dialog_->setStyleSheet("background: white;");
 
 	InitializeUIElements();
+	StartDatabaseWriteThread();
 	ConnectEventListeners();
 }
 
@@ -72,6 +74,37 @@ void MeasureWidget::InitializeUIElements() {
 	threshold_value_slider_->setSingleStep(1);
 	threshold_value_slider_->setValue(127);
 }
+
+
+void MeasureWidget::StartDatabaseWriteThread()
+{
+	// Worker thread which will process MeasureData objects from the latest_measure_data_ queue to insert into the database when new data is available
+	std::thread([this]()
+		{
+			MeasureDataDAO dao;
+			while (true)
+			{
+				{
+					std::unique_lock<std::mutex> lock(database_thread_wait_mutex_);
+					database_thread_cv_.wait(lock, [this]()
+						{
+							return !latest_measure_data_.empty();
+						});
+				}
+				const MeasureData& data = latest_measure_data_.front();
+				if (dao.InsertMeasureData(data))
+				{
+					qDebug() << "Successfully inserted new measure data";
+				}
+
+				{
+					std::unique_lock<std::mutex> lock(measure_data_queue_mutex_);
+					latest_measure_data_.pop();
+				}
+			}
+		}).detach();
+}
+
 
 void MeasureWidget::PerformValveAreaMeasurement()
 {
@@ -137,14 +170,15 @@ void MeasureWidget::ConnectEventListeners() {
 		{
 			QString unit_suffix = GetUnitSuffix(CalibrateWidget::current_unit_selection_);
 			calculated_area_label_->setText("Calculated Valve Area: " + QString::number(valve_area) + " " + unit_suffix);
-			if (measure_data_callback_)
-			{
-				QList<QString> split_filename = current_image_filename_.split("/");
-				QString target_filename = split_filename[split_filename.size() - 1];
 
-				measure_data_callback_(MeasureData(target_filename.toStdString(), QDateTime::currentDateTimeUtc().toString().toStdString(),
-					CalibrateWidget::current_unit_selection_, valve_area));
+			QList<QString> split_filename = current_image_filename_.split("/");
+			QString target_filename = split_filename[split_filename.size() - 1];
+
+			{
+				std::unique_lock<std::mutex> lock(measure_data_queue_mutex_);
+				latest_measure_data_.emplace(target_filename.toStdString(), QDateTime::currentDateTimeUtc().toString().toStdString(), CalibrateWidget::current_unit_selection_, valve_area);
 			}
+			database_thread_cv_.notify_one();
 		});
 
 	connect(file_dialog_.get(), &QFileDialog::fileSelected, this, [this](const QString& filename) {

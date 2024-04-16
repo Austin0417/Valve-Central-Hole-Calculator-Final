@@ -12,5 +12,6 @@ public:
 	void SetMeasuredValveArea(const double& area);
 	std::string ToFileFormat() const override;
 	virtual std::string GetFileNameType() const override;
+	friend std::ostream& operator<<(std::ostream& os, const MeasureData& measure_data);
 };
 
