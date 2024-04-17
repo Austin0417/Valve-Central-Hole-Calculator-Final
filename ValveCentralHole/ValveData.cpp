@@ -17,6 +17,11 @@ const UnitSelection& ValveData::GetUnits() const
 	return units_;
 }
 
+int ValveData::GetId() const
+{
+	return id_;
+}
+
 void ValveData::SetFileName(const std::string& filename)
 {
 	processed_file_name_ = filename;
@@ -30,6 +35,11 @@ void ValveData::SetTimeProcessed(const std::string& time)
 void ValveData::SetUnits(const UnitSelection& unit_selection)
 {
 	units_ = unit_selection;
+}
+
+void ValveData::SetId(int id)
+{
+	id_ = id;
 }
 
 

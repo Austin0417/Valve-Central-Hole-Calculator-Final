@@ -3,23 +3,25 @@
 #include <mutex>
 #include <fstream>
 #include <QWidget>
+#include <QMenu>
+#include <QEvent>
+#include <QMouseEvent>
 #include <QFileDialog>
 #include "ui_CalibrateHistoryWidget.h"
 #include "CalibrateData.h"
 #include "MeasureData.h"
 
-
+enum RowFormat
+{
+	FILENAME,
+	CALIBRATION_FACTOR,
+	TIME,
+	ID
+};
 class CalibrateHistoryWidget : public QWidget
 {
 	Q_OBJECT
 private:
-	enum RowFormat
-	{
-		FILENAME,
-		CALIBRATION_FACTOR,
-		TIME
-	};
-
 	std::unique_ptr<QTableWidget> history_table_;
 	std::unique_ptr<QPushButton> clear_btn_;
 	std::unique_ptr<QPushButton> export_csv_btn_;
@@ -36,6 +38,9 @@ private:
 	bool data_retrieval_complete = false;
 	std::condition_variable cv_;
 	std::mutex mutex_;
+
+	// Members to handle the QTableWidget right click
+	std::unique_ptr<QMenu> table_widget_right_click_menu_;
 
 	void InitializeHistoryTable(bool is_refresh = false);
 	void AddTableRow(const CalibrateData& data);
@@ -56,6 +61,8 @@ public:
 	void SetClearCalibrateHistoryCallback(const std::function<void()>& callback);
 	void RefreshTableData();
 	void ClearTable();
+
+	virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
 	void OnDataInitialLoadComplete();

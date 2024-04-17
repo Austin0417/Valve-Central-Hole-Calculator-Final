@@ -1,4 +1,6 @@
 #include "CalibrateHistoryWidget.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <QDateTime>
 #include <future>
@@ -65,6 +67,30 @@ static std::vector<CalibrateData> SortCalibrateData(const std::vector<CalibrateD
 }
 
 
+static std::vector<CalibrateData> ObtainCalibrateDataFromTableWidgetRow(const std::unique_ptr<QTableWidget>& history_table, const QList<QTableWidgetItem*>& selected_items)
+{
+	std::vector<CalibrateData> result;
+	for (const QTableWidgetItem* item : selected_items)
+	{
+		int current_row = item->row();
+		UnitSelection units;
+		std::string calibration_factor_string = history_table->item(current_row, CALIBRATION_FACTOR)->text().toStdString();
+		if (calibration_factor_string.find("mm^2") != std::string::npos)
+		{
+			units = UnitSelection::MILLIMETERS;
+		}
+		else
+		{
+			units = UnitSelection::INCHES;
+		}
+		double calibration_factor = strtod(calibration_factor_string.c_str(), nullptr);
+		int id = history_table->item(current_row, ID)->text().toInt();
+		result.emplace_back(id, history_table->item(current_row, FILENAME)->text().toStdString(), history_table->item(current_row, TIME)->text().toStdString(), units, calibration_factor);
+	}
+
+	return result;
+}
+
 CalibrateHistoryWidget::CalibrateHistoryWidget(QWidget* parent)
 	: QWidget(parent)
 {
@@ -76,15 +102,40 @@ CalibrateHistoryWidget::CalibrateHistoryWidget(QWidget* parent)
 	save_csv_file_dialog_ = std::make_unique<QFileDialog>(this);
 	save_csv_file_dialog_->setFileMode(QFileDialog::Directory);
 
-	InitializeHistoryTable();
-	//SetTableData(calibrate_history_);
+	history_table_->viewport()->installEventFilter(this);
 
+	table_widget_right_click_menu_ = std::make_unique<QMenu>(this);
+	QAction* clear_selected_rows_action = table_widget_right_click_menu_->addAction("Deleted Selected Rows");
+
+	InitializeHistoryTable();
+
+	// Separate thread that will query all entries of calibration history, and emit a signal to indicate when retrieval is complete
 	std::future<void> query_from_database = std::async(std::launch::async, [this]()
 		{
 			CalibrateDataDAO dao;
 			calibrate_history_ = dao.GetAllCalibrateData();
 			emit this->OnDataInitialLoadComplete();
 		});
+
+	connect(clear_selected_rows_action, &QAction::triggered, this, [this]()
+		{
+			// TODO Implement the logic to delete the selected rows here
+			auto database_thread = std::async(std::launch::async, [this]()
+				{
+					CalibrateDataDAO dao;
+					std::vector<CalibrateData> selected_data = ObtainCalibrateDataFromTableWidgetRow(history_table_, history_table_->selectedItems());
+					if (dao.DeleteSelectedDataList(selected_data))
+					{
+						qDebug() << "Selected rows deleted successfully";
+					}
+					else
+					{
+						qDebug() << "Failed to delete selected rows";
+					}
+					RefreshTableData();
+				});
+		});
+
 
 	connect(this, &CalibrateHistoryWidget::OnDataInitialLoadComplete, this, [this]()
 		{
@@ -229,16 +280,18 @@ void CalibrateHistoryWidget::InitializeHistoryTable(bool is_refresh)
 	if (!is_refresh)
 	{
 		history_table_->setRowCount(0);
-		history_table_->setColumnCount(3);
+		history_table_->setColumnCount(4);
 		history_table_->verticalHeader()->setVisible(false);
 		history_table_->horizontalHeader()->setVisible(false);
-		history_table_->setColumnWidth(0, history_table_->width() / 3);
-		history_table_->setColumnWidth(1, history_table_->width() / 3);
-		history_table_->setColumnWidth(2, history_table_->width() / 3);
+		history_table_->setColumnWidth(0, history_table_->width() / 4);
+		history_table_->setColumnWidth(1, history_table_->width() / 4);
+		history_table_->setColumnWidth(2, history_table_->width() / 4);
+		history_table_->setColumnWidth(3, history_table_->width() / 4);
 		history_table_->insertRow(history_table_->rowCount());
 		history_table_->setItem(0, FILENAME, new QTableWidgetItem("Image Filename"));
 		history_table_->setItem(0, CALIBRATION_FACTOR, new QTableWidgetItem("Calculated Calibration Factor"));
 		history_table_->setItem(0, TIME, new QTableWidgetItem("Time of Measurement"));
+		history_table_->setItem(0, ID, new QTableWidgetItem("Log ID"));
 
 		// Setting icons for all of the column headers
 		QTableWidgetItem* filename_column_header = history_table_->item(0, 0);
@@ -285,6 +338,7 @@ void CalibrateHistoryWidget::AddTableRow(const CalibrateData& data)
 	}
 	}
 	history_table_->setItem(history_table_->rowCount() - 1, TIME, new QTableWidgetItem(QString::fromStdString(data.GetTimeProcessed())));
+	history_table_->setItem(history_table_->rowCount() - 1, ID, new QTableWidgetItem(QString::number(data.GetId())));
 }
 
 
@@ -333,4 +387,21 @@ void CalibrateHistoryWidget::ClearTable()
 	history_table_->clear();
 	history_table_->setRowCount(1);
 	InitializeHistoryTable();
+}
+
+bool CalibrateHistoryWidget::eventFilter(QObject* watched, QEvent* event)
+{
+	if (watched == history_table_->viewport())
+	{
+		if (event->type() == QEvent::MouseButtonRelease)
+		{
+			QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
+			if (mouse_event->button() == Qt::RightButton)
+			{
+				table_widget_right_click_menu_->exec(history_table_->mapToGlobal(mouse_event->position().toPoint()));
+				return true;
+			}
+		}
+	}
+	return false;
 }

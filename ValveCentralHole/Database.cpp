@@ -31,7 +31,9 @@ void Database::InitializeDatabaseTables()
 	QSqlQuery query(db);
 
 
+
 	QString query_string = "CREATE TABLE IF NOT EXISTS calibration_history ("
+		"id INTEGER PRIMARY KEY,"
 		"calibration_gauge_filename TEXT,"
 		"calculated_calibration_factor DECIMAL(10, 5),"
 		"calibration_units TEXT,"
@@ -48,6 +50,7 @@ void Database::InitializeDatabaseTables()
 
 	query.clear();
 	query_string = "CREATE TABLE IF NOT EXISTS valve_measure_history ("
+		"id INTEGER PRIMARY KEY,"
 		"valve_image_filename TEXT,"
 		"measured_valve_area DECIMAL(10, 5),"
 		"valve_measure_units TEXT,"

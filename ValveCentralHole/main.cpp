@@ -21,10 +21,13 @@ int main(int argc, char* argv[])
 	std::vector<CalibrateData> calibration_history = calibrate_dao.GetAllCalibrateData();
 	std::vector<MeasureData> valve_history = measure_dao.GetAllMeasureData();
 
+	std::cout << "Calibration history : \n";
 	for (const auto& calibration : calibration_history)
 	{
 		std::cout << calibration << "\n";
 	}
+
+	std::cout << "Valve History : \n";
 
 	for (const auto& measure : valve_history)
 	{

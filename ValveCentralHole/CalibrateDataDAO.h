@@ -8,9 +8,11 @@
 class CalibrateDataDAO
 {
 public:
-	bool InsertCalibrateData(const CalibrateData& data) const;
+	std::optional<CalibrateData> InsertCalibrateData(const CalibrateData& data) const;
+	std::optional<CalibrateData> FindCalibrateData(const CalibrateData& data) const;
 	bool ClearCalibrateData() const;
 	std::vector<CalibrateData> GetAllCalibrateData() const;
-
+	bool DeleteSelectedData(const CalibrateData& data) const;
+	bool DeleteSelectedDataList(const std::vector<CalibrateData>& data_to_delete) const;
 };
 

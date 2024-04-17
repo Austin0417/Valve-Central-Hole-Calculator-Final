@@ -15,6 +15,7 @@ bool MeasureDataDAO::InsertMeasureData(const MeasureData& data) const
 
 		return query.exec();
 	}
+	return false;
 }
 
 bool MeasureDataDAO::ClearMeasureData() const
@@ -40,13 +41,45 @@ std::vector<MeasureData> MeasureDataDAO::GetAllMeasureData() const
 		{
 			while (query.next())
 			{
-				std::string filename = query.value(0).toString().toStdString();
-				double area = query.value(1).toDouble();
-				UnitSelection units = CalibrationGaugeParameters::StringToUnitSelection(query.value(2).toString());
-				std::string time = query.value(3).toString().toStdString();
-				result.emplace_back(filename, time, units, area);
+				int id = query.value(0).toInt();
+				std::string filename = query.value(1).toString().toStdString();
+				double area = query.value(2).toDouble();
+				UnitSelection units = CalibrationGaugeParameters::StringToUnitSelection(query.value(3).toString());
+				std::string time = query.value(4).toString().toStdString();
+				result.emplace_back(id, filename, time, units, area);
 			}
 		}
 	}
 	return result;
+}
+
+bool MeasureDataDAO::DeleteSelectedMeasureData(const MeasureData& measure_data) const
+{
+	QSqlDatabase& db = Database::GetDatabase();
+	if (db.isValid())
+	{
+		QSqlQuery query(db);
+		query.prepare("DELETE FROM valve_measure_history WHERE id=:id");
+		query.bindValue(":id", measure_data.GetId());
+		return query.exec();
+	}
+	return false;
+}
+
+bool MeasureDataDAO::DeleteSelectedMeasureDataList(const std::vector<MeasureData>& measure_data_list) const
+{
+	QSqlDatabase& db = Database::GetDatabase();
+	if (db.isValid())
+	{
+		QSqlQuery query(db);
+		for (const auto& data : measure_data_list)
+		{
+			if (!DeleteSelectedMeasureData(data))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
 }

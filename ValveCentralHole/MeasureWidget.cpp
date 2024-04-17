@@ -163,6 +163,14 @@ void MeasureWidget::ConnectEventListeners() {
 
 	connect(threshold_value_spin_box_.get(), &ThresholdValueSpinBox::OnReturnPressed, this, [this](int threshold_value)
 		{
+			threshold_value_ = threshold_value;
+			threshold_value_slider_->setValue(threshold_value_);
+			threshold_value_display_label_->setText(QString::number(threshold_value_));
+			if (!current_image_mat_.empty() && !binarized_image_preview_mat_.empty() && isCurrentlyShowingPreview)
+			{
+				// Update the preview image with the new threshold value
+				std::future<void> thread_handle = std::async(std::launch::async, &CreateBinaryImagePreview, std::ref(*this), std::ref(current_image_mat_), true);
+			}
 			PerformValveAreaMeasurement();
 		});
 
@@ -205,6 +213,7 @@ void MeasureWidget::ConnectEventListeners() {
 		{
 			threshold_value_ = value;
 			threshold_value_display_label_->setText(QString::number(threshold_value_));
+			threshold_value_spin_box_->setValue(threshold_value_);
 
 			if (!current_image_mat_.empty() && !binarized_image_preview_mat_.empty() && isCurrentlyShowingPreview)
 			{

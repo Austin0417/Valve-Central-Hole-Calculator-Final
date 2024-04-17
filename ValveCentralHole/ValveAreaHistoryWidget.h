@@ -5,22 +5,29 @@
 #include <QFileDialog>
 #include <QTableWidget>
 #include <QPushButton>
+#include <QEvent>
+#include <QMenu>
+#include <QMouseEvent>
 #include "MeasureData.h"
 #include "ui_ValveAreaHistoryWidget.h"
 
+
+namespace valve_area_widget
+{
+	enum RowFormat
+	{
+		FILENAME,
+		MEASURED_AREA,
+		TIME,
+		ID
+	};
+}
 
 
 class ValveAreaHistoryWidget : public QWidget
 {
 	Q_OBJECT
 private:
-	enum RowFormat
-	{
-		FILENAME,
-		MEASURED_AREA,
-		TIME
-	};
-
 	std::unique_ptr<QTableWidget> history_table_;
 	std::unique_ptr<QPushButton> clear_btn_;
 	std::unique_ptr<QPushButton> export_csv_btn_;
@@ -35,6 +42,8 @@ private:
 	bool data_retrieval_complete = false;
 	std::condition_variable cv_;
 	std::mutex mutex_;
+
+	std::unique_ptr<QMenu> table_widget_right_click_menu_;
 
 	Ui::ValveAreaHistoryWidget ui;
 	void AddRowToTable(const MeasureData& data);
@@ -55,10 +64,12 @@ public:
 	void SetClearValveAreaHistoryCallback(const std::function<void()>& callback);
 	void RefreshTableData();
 	void ClearTable(bool exclude_first_row = false);
+	virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
 	void OnDataInitialLoadComplete();
 	void OnTableRefreshComplete();
 	void OnSortComplete(const std::vector<MeasureData>& sorted);
+	void OnRowsDeleted();
 };
 

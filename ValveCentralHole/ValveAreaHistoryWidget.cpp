@@ -117,6 +117,33 @@ static ValveAreaHistoryWidget::SortOption OnColumnHeaderClicked(QTableWidgetItem
 	return result;
 }
 
+
+static std::vector<MeasureData> ObtainMeasureDataFromTableWidgetRow(const std::unique_ptr<QTableWidget>& history_table, const QList<QTableWidgetItem*>& selected_items)
+{
+	using namespace valve_area_widget;
+	std::vector<MeasureData> result;
+	for (const QTableWidgetItem* item : selected_items)
+	{
+		int current_row = item->row();
+		UnitSelection units;
+		std::string measured_area_string = history_table->item(current_row, MEASURED_AREA)->text().toStdString();
+		if (measured_area_string.find("mm^2") != std::string::npos)
+		{
+			units = UnitSelection::MILLIMETERS;
+		}
+		else
+		{
+			units = UnitSelection::INCHES;
+		}
+		double calibration_factor = strtod(measured_area_string.c_str(), nullptr);
+		int id = history_table->item(current_row, ID)->text().toInt();
+		result.emplace_back(id, history_table->item(current_row, FILENAME)->text().toStdString(), history_table->item(current_row, TIME)->text().toStdString(), units, calibration_factor);
+	}
+
+	return result;
+}
+
+
 ValveAreaHistoryWidget::ValveAreaHistoryWidget(QWidget* parent) : QWidget(parent)
 {
 	ui.setupUi(this);
@@ -126,20 +153,26 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(QWidget* parent) : QWidget(parent
 	export_csv_btn_.reset(ui.export_csv_btn);
 	save_csv_file_dialog_ = std::make_unique<QFileDialog>(this);
 	save_csv_file_dialog_->setFileMode(QFileDialog::Directory);
+	table_widget_right_click_menu_ = std::make_unique<QMenu>(this);
+	QAction* right_click_action = table_widget_right_click_menu_->addAction("Delete Selected Rows");
 
 	history_table_->clear();
 
 	// Initialize the first row (headers row)
 	history_table_->insertRow(history_table_->rowCount());
-	history_table_->setColumnCount(3);
+	history_table_->setColumnCount(4);
 	history_table_->verticalHeader()->setVisible(false);
 	history_table_->horizontalHeader()->setVisible(false);
-	history_table_->setColumnWidth(0, history_table_->width() / 3);
-	history_table_->setColumnWidth(1, history_table_->width() / 3);
-	history_table_->setColumnWidth(2, history_table_->width() / 3);
+	history_table_->setColumnWidth(0, history_table_->width() / 4);
+	history_table_->setColumnWidth(1, history_table_->width() / 4);
+	history_table_->setColumnWidth(2, history_table_->width() / 4);
+	history_table_->setColumnWidth(3, history_table_->width() / 4);
 	history_table_->setItem(0, 0, new QTableWidgetItem("Image Filename"));
 	history_table_->setItem(0, 1, new QTableWidgetItem("Measured Area"));
 	history_table_->setItem(0, 2, new QTableWidgetItem("Time of Measurement"));
+	history_table_->setItem(0, 3, new QTableWidgetItem("Log ID"));
+
+	history_table_->viewport()->installEventFilter(this);
 
 	QTableWidgetItem* filename_header = history_table_->item(0, 0);
 	QTableWidgetItem* area_header = history_table_->item(0, 1);
@@ -163,6 +196,26 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(QWidget* parent) : QWidget(parent
 			emit this->OnDataInitialLoadComplete();
 		});
 
+	connect(right_click_action, &QAction::triggered, this, [this]()
+		{
+			auto delete_thread = std::async(std::launch::async, [this]()
+				{
+					QList<QTableWidgetItem*> selected_items = history_table_->selectedItems();
+					std::vector<MeasureData> data_to_delete = ObtainMeasureDataFromTableWidgetRow(history_table_, selected_items);
+					MeasureDataDAO dao;
+					if (dao.DeleteSelectedMeasureDataList(data_to_delete))
+					{
+						qDebug() << "Successfully deleted selected rows";
+					}
+					else
+					{
+						qDebug() << "Failed to delete selected rows";
+					}
+
+					// TODO Indicate that the widget should re-query the database to obtain the updated table information
+					RefreshTableData();
+				});
+		});
 
 	connect(this, &ValveAreaHistoryWidget::OnDataInitialLoadComplete, this, [this]()
 		{
@@ -174,6 +227,15 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(QWidget* parent) : QWidget(parent
 			if (clear_valve_area_history_callback_)
 			{
 				clear_valve_area_history_callback_();
+			}
+		});
+
+	connect(this, &ValveAreaHistoryWidget::OnRowsDeleted, this, [this]()
+		{
+			ClearTable(true);
+			for (const auto& data : measure_history_)
+			{
+				AddRowToTable(data);
 			}
 		});
 
@@ -260,6 +322,7 @@ ValveAreaHistoryWidget::ValveAreaHistoryWidget(QWidget* parent) : QWidget(parent
 
 void ValveAreaHistoryWidget::AddRowToTable(const MeasureData& data)
 {
+	using namespace valve_area_widget;
 	history_table_->insertRow(history_table_->rowCount());
 	history_table_->setItem(history_table_->rowCount() - 1, FILENAME, new QTableWidgetItem(QString::fromStdString(data.GetFileName())));
 	switch (data.GetUnits())
@@ -276,6 +339,7 @@ void ValveAreaHistoryWidget::AddRowToTable(const MeasureData& data)
 	}
 	}
 	history_table_->setItem(history_table_->rowCount() - 1, TIME, new QTableWidgetItem(QString::fromStdString(data.GetTimeProcessed())));
+	history_table_->setItem(history_table_->rowCount() - 1, ID, new QTableWidgetItem(QString::number(data.GetId())));
 }
 
 void ValveAreaHistoryWidget::SetTableData(const std::vector<MeasureData>& data)
@@ -339,4 +403,21 @@ void ValveAreaHistoryWidget::ClearTable(bool exclude_first_row)
 		}
 	}
 
+}
+
+bool ValveAreaHistoryWidget::eventFilter(QObject* watched, QEvent* event)
+{
+	if (watched == history_table_->viewport())
+	{
+		if (event->type() == QEvent::MouseButtonRelease)
+		{
+			QMouseEvent* mouse_event = dynamic_cast<QMouseEvent*>(event);
+			if (mouse_event->button() == Qt::RightButton)
+			{
+				table_widget_right_click_menu_->exec(history_table_->mapToGlobal(mouse_event->position().toPoint()));
+				return true;
+			}
+		}
+	}
+	return false;
 }

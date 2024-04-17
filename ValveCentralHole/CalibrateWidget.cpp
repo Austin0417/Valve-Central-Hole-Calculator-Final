@@ -621,7 +621,7 @@ void CalibrateWidget::ConnectEventListeners()
 			SetIsCurrentlyShowingPreview(true);
 			DisplayPreviewMat();
 			threshold_value_ = threshold_value;
-			qDebug() << "Slider value changed: " << threshold_value;
+			threshold_input_slider_->setValue(threshold_value_);
 			threshold_value_label_->setText(QString::number(threshold_value_));
 
 			// When the slider is moved, we want to update the preview image if it is currently shown
